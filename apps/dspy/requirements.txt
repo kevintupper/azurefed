@@ -1,0 +1,13 @@
+# Common packages for all our azurefed apps
+python-dotenv
+streamlit
+semantic-kernel
+msal
+openai
+dspy-ai
+chromadb
+
+# App sepcific packages
+
+
+# Temp installs
