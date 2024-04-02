@@ -10,19 +10,20 @@ import streamlit as st
 # Local imports
 from helpers import helper_auth as authentication
 from helpers import helper_utils as utils
+from helpers import helper_sk as sk
+
 
 #***********************************************************************************************
 # Menu Definition
 #***********************************************************************************************
 MENU_ITEMS = [
-    {"menu_title": "Sk", "return_value": "sk", "submenu": []},
-
-    # Add your menu items here
-    # {"menu_title": "Demo 2", "return_value": "demo_2", "submenu": [
-    #     {"menu_title": "Next 1", "return_value": "demo_2_next_1"},
-    #     {"menu_title": "Next 2", "return_value": "demo_2_next_2"},
-    # ]},
-
+    {"menu_title": "Chat", "return_value": "chat", "submenu": []},
+    {"menu_title": " Reframe input", "return_value": "reframe_input", "submenu": []},
+    {"menu_title": " Validate domain", "return_value": "validate_domain", "submenu": []},
+    {"menu_title": " Need filings", "return_value": "need_filings", "submenu": []},
+    {"menu_title": " Symbols", "return_value": "symbols", "submenu": []},
+    {"menu_title": " Filing Type", "return_value": "filing_type", "submenu": []},
+    {"menu_title": " Filing Period", "return_value": "filing_period", "submenu": []},
 ]
 
 
@@ -30,16 +31,181 @@ MENU_ITEMS = [
 # Page Functions
 #***********************************************************************************************
 
-# Sk Page
-async def sk():
+# Chat Page
+async def chat():
     """
-    Display the sk page.
+    Display the chat page.
     """
 
+    # Function to display message history
+    def display_message_history(container, chat_history, selected_service_id):
+        """
+        Display the message history.
+        """
+        if container != None and chat_history != None:
+            container.markdown(f"**{selected_service_id}**")
+            for message in chat_history.messages:
+                with container.chat_message(message.role):
+                    st.markdown(message.content)
+
+
+    # Build the chat page
+     
     # Set the page title
-    st.markdown("### Sk App - Azure Fed Demo Environment")
-    st.markdown("**Current User Information**")
-    st.json(st.session_state.user_info)
+    st.markdown("### Chat")
+
+
+    # Initialize vars to hold placeholder and response for chat service
+    response_1 = None
+    response_2 = None
+    response_coro_1 = None
+    response_coro_2 = None
+    
+    
+    # Sidebar options to select the chat services to use
+    selected_chat_service = await display_sidebar_chat_services()
+
+
+    # Initialize col1 and col2 for single or dual services
+    col1, col2 = st.columns(2) if selected_chat_service == "both" else (st, None)
+
+
+    # Initialize the selected service for one or both 
+    selected_service_id_1 = "gpt_35_turbo" if selected_chat_service == "both" else selected_chat_service
+    selected_service_id_2 = "gpt_4" if selected_chat_service == "both" else None
+    
+    
+    # Get the chat service
+    curent_chat_service_1 = st.session_state.get(f"{selected_service_id_1}_service")
+    curent_chat_service_2 = st.session_state.get(f"{selected_service_id_2}_service") if selected_chat_service == "both" else None
+    
+    # Get the chat history
+    current_chat_history_1 = st.session_state.get(f"{selected_service_id_1}_history")
+    current_chat_history_2 = st.session_state.get(f"{selected_service_id_2}_history") if selected_chat_service == "both" else None
+
+
+    # Display the chat history for the first service and the second service if available
+    display_message_history(col1, current_chat_history_1, selected_service_id_1)
+    display_message_history(col2, current_chat_history_2, selected_service_id_2) 
+
+
+    # Get the user input
+    if prompt := st.chat_input():
+        
+        # Add the user input to the chat history and display the user input
+        current_chat_history_1.add_user_message(prompt)
+        if col2:
+            current_chat_history_2.add_user_message(prompt)
+        
+        # Display the user input
+        with col1.chat_message("user"):
+            st.markdown(prompt)
+        if col2:
+            with col2.chat_message("user"):
+                st.markdown(prompt)
+
+        # Create placeholders for the assistant's response and setup the routine to get the responses
+        with col1.chat_message("assistant"):
+            placeholder_1 = st.empty()
+            
+            # Initialize the response coroutine
+            response_coro_1 = sk.generate_streaming_response(
+                response_holder=placeholder_1,
+                chat_service=curent_chat_service_1,
+                system_message="You are a helpful AI assistant.",
+                chat_history=current_chat_history_1,
+                user_input=None, # Already added to chat history.
+            )
+
+        if col2:
+            with col2:
+                # Placeholder for the assistant's response
+                with st.chat_message("assistant"):
+                    placeholder_2 = st.empty()
+
+                # Initialize the response coroutine
+                response_coro_2 = sk.generate_streaming_response(
+                    response_holder=placeholder_2,
+                    chat_service=curent_chat_service_2,
+                    system_message="You are a helpful AI assistant.",
+                    chat_history=current_chat_history_2,
+                    user_input=None, # Already added to chat history.
+                )
+                
+        # Build the response coroutines
+        coroutines = [response_coro_1]
+        if col2: 
+            coroutines.append(response_coro_2)
+
+        # Get the responses
+        responses = await asyncio.gather(*coroutines)
+
+        # Now, assign responses conditionally
+        response_1 = responses[0]
+        if len(responses) > 1:
+            response_2 = responses[1]
+            
+
+        # Add the assistant's response to the chat history
+        current_chat_history_1.add_assistant_message(response_1)
+        if selected_chat_service == "both":
+            current_chat_history_2.add_assistant_message(response_2)
+
+
+        # Important: Update the session state with the modified chat history
+        st.session_state[f"{selected_service_id_1}_history"] = current_chat_history_1
+        if selected_chat_service == "both":
+            st.session_state[f"{selected_service_id_2}_history"] = current_chat_history_2 
+
+
+# Validate Domain Page
+async def reframe_input():
+    """
+    Display the remframe input page.
+    """
+    
+    # Build the reframe input
+    st.markdown("### 1. Reframe Input")
+
+
+    # Get the system message
+    st.markdown("**System Message**")
+    default_system_message = "IINSTRUCTIONS: Review the supplied sequence of user input messages and reframe the last one so that it can stand alone and be sent to an AI assistant."
+    system_message = st.text_area("Enter the system message", value=default_system_message, height=300, label_visibility="collapsed")
+    
+    # Get the user input
+    st.markdown("### 2. User Input")
+    default_user_input = """Sequence of user input messages:
+- Graph the earnings of AAPL stock over the past 5 years.
+- Include Microsoft too
+"""
+    user_input = st.text_area("Enter the system message", value=default_user_input, height=100, label_visibility="collapsed")
+
+    # Sidebar options to select the chat services to use
+    selected_chat_service = await display_sidebar_chat_services()
+
+    # Initialize the selected service for one or both 
+    selected_service_id_1 = "gpt_35_turbo" if selected_chat_service == "both" else selected_chat_service
+    selected_service_id_2 = "gpt_4" if selected_chat_service == "both" else None
+
+    # Initialize the chat function
+    current_chat_function_1 = st.session_state.get(f"{selected_service_id_1}_function")
+    current_chat_function_2 = st.session_state.get(f"{selected_service_id_2}_function") if selected_chat_service == "both" else None
+
+    if st.button("Reframe Input"):
+        # Placeholder for the reframed input
+        holder = st.empty()
+        
+        # response = await sk.generate_response(
+        #     response_holder=holder,
+        #     chat_function=current_chat_function_1,
+        #     system_message=system_message,
+        #     chat_history=None,
+        #     user_input=user_input,
+        #     temperature=0.0,
+        #     top_p=0.1,
+        #     max_tokens=5,
+        # )
 
 
 
@@ -47,25 +213,63 @@ async def sk():
 #***********************************************************************************************
 # Page display and styling helper functions
 #***********************************************************************************************
+async def display_sidebar_chat_services():
+    """
+    Display the sidebar options to select the chat services.
+    """
+    
+    # Services to allow for this demo
+    available_chat_services = ["gpt_35_turbo","gpt_4","both"]
+    
+    # Setup the sidebar options
+    with st.sidebar:
+        
+        # Display and return the chat service to use
+        st.markdown("**Chat Service**")
+        selected_service = st.radio("Select chat service",
+                                    options=available_chat_services,
+                                    index=0,
+                                    label_visibility="collapsed")
+
+        # Button to clear chat history
+        st.markdown("**Commands**")
+        if st.sidebar.button("Clear chat history"):
+            await reset_app_session_state()    
+    
+    # Return the selected chat service
+    return selected_service
+
+
 async def initialize_app_session_state():
     """
     Initialize the session state variables for the application.
     """
     
-    # Check if the session state variables are already initialized
-    if "app_initialized" not in st.session_state:
-        # Initialize the session state variables
-        st.session_state.app_initialized = True
+    # Initialize chat_sevices if necssary
+    if "chat_services" not in st.session_state:
+        sk.initialize_chat_services()
+        
+
+    # Initialize chat app specific settings
+    if "chat_app_initialized" not in st.session_state:
+        
+        # Create a chat_history for each service
+        for service_name in st.session_state.chat_services:
+            st.session_state[f"{service_name}_history"] = sk.new_chat_history()
+
+        # Flag as initialized.
+        st.session_state.chat_app_initialized = True
 
 
 async def reset_app_session_state():
     """
-    Reset the session state variables for the application.
+    Reset some of the session state variables for the application.
     """
-   
-    # Reset the session state variables
-    st.session_state.app_initialized = False
-
+    
+    # Reset the chat service histories
+    for service_name in st.session_state.chat_services:
+        st.session_state[f"{service_name}_history"] = sk.new_chat_history()
+    
 
 async def setup_styling_and_menu():
     """
@@ -113,7 +317,6 @@ async def setup_styling_and_menu():
     return selected_return_value    
 
 
-# Display Page Content
 async def display_page_content(selected_return_value):
     """
     Display the page content based on the selected menu item.

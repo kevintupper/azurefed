@@ -40,18 +40,16 @@ def get_dspy_client(service_id, **kwargs):
         client = dspy.AzureOpenAI(
             api_base=AZURE_OPENAI_ENDPOINT,
             api_key=AZURE_OPENAI_API_KEY, 
-            api_deployment=AZURE_OPENAI_DEPLOYMENT_NAME_GPT_4,
+            deployment_id=AZURE_OPENAI_DEPLOYMENT_NAME_GPT_4,
             api_version=AZURE_OPENAI_API_VERSION,
-            model_type="chat",
             **kwargs
         )
     elif service_id == "gpt_35_turbo":
         client = dspy.AzureOpenAI(
             api_base=AZURE_OPENAI_ENDPOINT,
             api_key=AZURE_OPENAI_API_KEY, 
-            api_deployment=AZURE_OPENAI_DEPLOYMENT_NAME_GPT_35_TURBO,
+            deployment_id=AZURE_OPENAI_DEPLOYMENT_NAME_GPT_35_TURBO,
             api_version=AZURE_OPENAI_API_VERSION,
-            model_type="chat",
             **kwargs
         )
     else:

@@ -11,7 +11,7 @@ import streamlit as st
 
 # SK imports
 import semantic_kernel as sk
-import semantic_kernel.connectors.ai.open_ai as sk_oai
+import semantic_kernel.connectors.ai.open_ai as sk_aoai
 from semantic_kernel.contents.chat_history import ChatHistory
 
 
@@ -25,6 +25,15 @@ AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
 AZURE_OPENAI_API_VERSION = os.getenv("AZURE_OPENAI_API_VERSION")
 AZURE_OPENAI_DEPLOYMENT_NAME_GPT_4 = os.getenv("AZURE_OPENAI_DEPLOYMENT_NAME_GPT_4")
 AZURE_OPENAI_DEPLOYMENT_NAME_GPT_35_TURBO = os.getenv("AZURE_OPENAI_DEPLOYMENT_NAME_GPT_35_TURBO")
+
+
+# Return a new chat history
+def new_chat_history():
+    """
+    Return a new chat history.
+    """
+    return ChatHistory()
+
 
 # Initialize a chat service
 def initialize_chat_service(deployment_name, base_url, service_id, api_key, api_version):
@@ -40,34 +49,14 @@ def initialize_chat_service(deployment_name, base_url, service_id, api_key, api_
 
     # Initialize the chat service
     chat_config = {"api_key": api_key, "endpoint": base_url, "deployment_name": deployment_name, "api_version": api_version}
-    chat_service = sk_oai.AzureChatCompletion(service_id=service_id, **chat_config)
+    chat_service = sk_aoai.AzureChatCompletion(service_id=service_id, **chat_config)
 
     # Add the service to the kernel
     st.session_state.kernel.add_service(chat_service)
-    
-    # Initialize the chat settings
-    chat_settings = st.session_state.kernel.get_prompt_execution_settings_from_service_id(service_id=service_id)
-    chat_settings.max_tokens = 2000
-    chat_settings.temperature = 0.7
-    chat_settings.top_p = 0.8
-    chat_settings.stream = True
-    chat_settings.auto_invoke_kernel_functions = True
-    
-    # Initialize the chat history
-    chat_history = ChatHistory()
 
-    # Initialize the chat service function
-    chat_function = st.session_state.kernel.create_function_from_prompt(
-        prompt="""You are an AI chatbot that answers questions and helps people. You use clear, plain language without jargon.
-        {{$chat_history}}{{$user_input}}""",
-        function_name=f"chat_{service_id}",
-        plugin_name=f"chat_{service_id}",
-        prompt_execution_settings=chat_settings
-    )
-    
     print(f"Initialized {service_id} chat service")
     
-    return chat_service, chat_settings, chat_history, chat_function
+    return chat_service
 
 
 # Initialize the application chat services.
@@ -76,41 +65,72 @@ def initialize_chat_services():
     Initialize the chat services for the application.
     """
 
-
     # Initialize not already initialized
     if "chat_services" not in st.session_state:
-
 
         # Initialize the kernel
         if "kernel" not in st.session_state:  
             st.session_state.kernel = sk.Kernel()
-
-
+            
         # Initialize each chat service (deployment_name, base_url, service_id, api_key, api_version)
         services_to_initialize = {
             "gpt_4": (AZURE_OPENAI_DEPLOYMENT_NAME_GPT_4, AZURE_OPENAI_ENDPOINT, "gpt_4", AZURE_OPENAI_API_KEY, AZURE_OPENAI_API_VERSION),
             "gpt_35_turbo": (AZURE_OPENAI_DEPLOYMENT_NAME_GPT_35_TURBO, AZURE_OPENAI_ENDPOINT, "gpt_35_turbo", AZURE_OPENAI_API_KEY, AZURE_OPENAI_API_VERSION),
         }
 
+        # Store these in session_state with the service_name as a key
         for service_name, params in services_to_initialize.items():
-            service, settings, history, function = initialize_chat_service(*params)
-            # Store these in session_state with the service_name as a key
+            service = initialize_chat_service(*params)
             st.session_state[f"{service_name}_service"] = service
-            st.session_state[f"{service_name}_settings"] = settings
-            st.session_state[f"{service_name}_history"] = history
-            st.session_state[f"{service_name}_function"] = function
         
         # Initialize the chat services list and active chat service
         st.session_state.chat_services = list(services_to_initialize.keys())
-        st.session_state.active_chat_service = "gpt_4"
+
 
 # Generate response
-async def generate_response(response_holder, chat_function, chat_history, prompt):
+async def generate_streaming_response(response_holder, chat_service, system_message, chat_history, user_input, **kwargs):
 
-    # Invoke the chat service with the user input
-    answer = st.session_state.kernel.invoke_stream(chat_function, user_input=prompt, chat_history=chat_history)
+    # Initialize the chat settings based on the service ID and kwargs
+    service_id = chat_service.service_id
+    chat_settings = sk_aoai.AzureChatPromptExecutionSettings(
+        service_id=service_id,
+        max_tokens=kwargs.get("max_tokens", 2000),
+        temperature=kwargs.get("temperature", 0.7),
+        top_p=kwargs.get("top_p", 0.8),
+        frequency_penalty=kwargs.get("frequency_penalty", 0.0),
+        presence_penalty=kwargs.get("presence_penalty", 0.0),
+        stream=True,
+    )
+    
+    
+    # Build the chat history based on the system message and user input
+    
+    # If no chat history is provided, create a new one
+    if not chat_history:
+        print("Creating new chat history")
+        chat_history = new_chat_history()
+        
+    # Add the user input to the chat history
+    if user_input:
+        print(f"Adding user message: {user_input}")
+        chat_history.add_user_message(user_input)
+    else:
+        print("No user message provided")   
+        
+    # If system message is provided, initialize the chat for the prompt with it and the chat history, otherwise just the chat history
+    if system_message:
+        print(f"Initializing chat with system message: {system_message}")
+        chat = ChatHistory(messages=chat_history.messages, system_message=system_message)
+    else:
+        print("Initializing chat without system message")
+        chat = chat_history
+
+    # Execute the prompt 
     output = ""
-    async for message in answer:
+    stream = chat_service.complete_chat_stream(chat_history=chat, settings=chat_settings)
+
+    # Stream the response
+    async for message in stream:
         output += str(message[0])
         response_holder.write(output)
 

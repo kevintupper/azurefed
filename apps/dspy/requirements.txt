@@ -3,11 +3,5 @@ python-dotenv
 streamlit
 semantic-kernel
 msal
-openai
-dspy-ai
-chromadb
 
 # App sepcific packages
-
-
-# Temp installs
