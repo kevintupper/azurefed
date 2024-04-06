@@ -158,28 +158,34 @@ async def chat():
             st.session_state[f"{selected_service_id_2}_history"] = current_chat_history_2 
 
 
-# Validate Domain Page
+# Reframe Input Page
 async def reframe_input():
     """
     Display the remframe input page.
     """
     
     # Build the reframe input
-    st.markdown("### 1. Reframe Input")
-
+    st.markdown("### Reframe Input")
 
     # Get the system message
     st.markdown("**System Message**")
-    default_system_message = "IINSTRUCTIONS: Review the supplied sequence of user input messages and reframe the last one so that it can stand alone and be sent to an AI assistant."
-    system_message = st.text_area("Enter the system message", value=default_system_message, height=300, label_visibility="collapsed")
+    default_system_message = """#Context:
+The user has a chatbot that needs standalone questions without the full context.
+
+#Instructions
+Reframe the **Current User Input** to be self-contained, incorporating the necessary context from the **Previous User Input Sequence**. Return ONLY the reframed user input.
+"""
+    system_message = st.text_area("Enter the system message", value=default_system_message, height=100, label_visibility="collapsed")
     
     # Get the user input
-    st.markdown("### 2. User Input")
-    default_user_input = """Sequence of user input messages:
+    st.markdown("**User Input**")
+    default_user_input = """**Previous User Input Sequence**
 - Graph the earnings of AAPL stock over the past 5 years.
-- Include Microsoft too
+
+**Current User Input**
+Include Microsoft too
 """
-    user_input = st.text_area("Enter the system message", value=default_user_input, height=100, label_visibility="collapsed")
+    user_input = st.text_area("Enter the system message", value=default_user_input, height=250, label_visibility="collapsed")
 
     # Sidebar options to select the chat services to use
     selected_chat_service = await display_sidebar_chat_services()
@@ -188,24 +194,82 @@ async def reframe_input():
     selected_service_id_1 = "gpt_35_turbo" if selected_chat_service == "both" else selected_chat_service
     selected_service_id_2 = "gpt_4" if selected_chat_service == "both" else None
 
-    # Initialize the chat function
-    current_chat_function_1 = st.session_state.get(f"{selected_service_id_1}_function")
-    current_chat_function_2 = st.session_state.get(f"{selected_service_id_2}_function") if selected_chat_service == "both" else None
+    # Get the chat service
+    curent_chat_service_1 = st.session_state.get(f"{selected_service_id_1}_service")
+    curent_chat_service_2 = st.session_state.get(f"{selected_service_id_2}_service") if selected_chat_service == "both" else None
 
     if st.button("Reframe Input"):
         # Placeholder for the reframed input
         holder = st.empty()
         
-        # response = await sk.generate_response(
-        #     response_holder=holder,
-        #     chat_function=current_chat_function_1,
-        #     system_message=system_message,
-        #     chat_history=None,
-        #     user_input=user_input,
-        #     temperature=0.0,
-        #     top_p=0.1,
-        #     max_tokens=5,
-        # )
+                # Initialize the response coroutine
+        output = await sk.generate_response(
+            response_holder=holder,
+            chat_service=curent_chat_service_1,
+            system_message=system_message,
+            chat_history=None,
+            user_input=user_input,
+            temperature=0.0,
+            top_p=0.1,
+            stream=False,
+            max_tokens=1000
+        )
+
+
+# Validate Domain Page
+async def validate_domain():
+    """
+    Display the validate domain page.
+    """
+    
+    # Build the reframe input
+    st.markdown("### Validate Domain")
+
+    # Get the system message
+    st.markdown("**System Message**")
+    default_system_message = """#Context:
+The user has a chatbot that only answers questions suitable for a Financial Analyst.
+
+#Instructions
+Revivew the **Current User Input** and respond YES if the chatbot should respond and NO if it should politely decline.
+"""
+    system_message = st.text_area("Enter the system message", value=default_system_message, height=100, label_visibility="collapsed")
+    
+    # Get the user input
+    st.markdown("**2. User Input**")
+    default_user_input = """**Current User Input**
+What is one under par in golf?
+"""
+    user_input = st.text_area("Enter the system message", value=default_user_input, height=250, label_visibility="collapsed")
+
+    # Sidebar options to select the chat services to use
+    selected_chat_service = await display_sidebar_chat_services()
+
+    # Initialize the selected service for one or both 
+    selected_service_id_1 = "gpt_35_turbo" if selected_chat_service == "both" else selected_chat_service
+    selected_service_id_2 = "gpt_4" if selected_chat_service == "both" else None
+
+    # Get the chat service
+    curent_chat_service_1 = st.session_state.get(f"{selected_service_id_1}_service")
+    curent_chat_service_2 = st.session_state.get(f"{selected_service_id_2}_service") if selected_chat_service == "both" else None
+
+    if st.button("Validate Domain"):
+        # Placeholder for the reframed input
+        holder = st.empty()
+        
+                # Initialize the response coroutine
+        output = await sk.generate_response(
+            response_holder=holder,
+            chat_service=curent_chat_service_1,
+            system_message=system_message,
+            chat_history=None,
+            user_input=user_input,
+            temperature=0.0,
+            top_p=0.1,
+            stream=False,
+            max_tokens=1000
+        )
+
 
 
 

@@ -5,3 +5,6 @@ semantic-kernel
 msal
 
 # App sepcific packages
+dspy-ai
+dspy-ai[chromadb]
+ollama

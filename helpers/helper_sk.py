@@ -50,6 +50,8 @@ def initialize_chat_service(deployment_name, base_url, service_id, api_key, api_
     # Initialize the chat service
     chat_config = {"api_key": api_key, "endpoint": base_url, "deployment_name": deployment_name, "api_version": api_version}
     chat_service = sk_aoai.AzureChatCompletion(service_id=service_id, **chat_config)
+    
+    chat_service.complete_chat
 
     # Add the service to the kernel
     st.session_state.kernel.add_service(chat_service)
@@ -87,7 +89,7 @@ def initialize_chat_services():
         st.session_state.chat_services = list(services_to_initialize.keys())
 
 
-# Generate response
+# Generate streaming response
 async def generate_streaming_response(response_holder, chat_service, system_message, chat_history, user_input, **kwargs):
 
     # Initialize the chat settings based on the service ID and kwargs
@@ -107,22 +109,16 @@ async def generate_streaming_response(response_holder, chat_service, system_mess
     
     # If no chat history is provided, create a new one
     if not chat_history:
-        print("Creating new chat history")
         chat_history = new_chat_history()
         
     # Add the user input to the chat history
     if user_input:
-        print(f"Adding user message: {user_input}")
         chat_history.add_user_message(user_input)
-    else:
-        print("No user message provided")   
         
     # If system message is provided, initialize the chat for the prompt with it and the chat history, otherwise just the chat history
     if system_message:
-        print(f"Initializing chat with system message: {system_message}")
         chat = ChatHistory(messages=chat_history.messages, system_message=system_message)
     else:
-        print("Initializing chat without system message")
         chat = chat_history
 
     # Execute the prompt 
@@ -136,3 +132,44 @@ async def generate_streaming_response(response_holder, chat_service, system_mess
 
     # Return the output
     return output
+
+
+# Generate a response
+async def generate_response(response_holder, chat_service, system_message, chat_history, user_input, **kwargs):
+    
+    # Initialize the chat settings based on the service ID and kwargs
+    service_id = chat_service.service_id
+    chat_settings = sk_aoai.AzureChatPromptExecutionSettings(
+        service_id=service_id,
+        max_tokens=kwargs.get("max_tokens", 2000),
+        temperature=kwargs.get("temperature", 0.0),
+        top_p=kwargs.get("top_p", 0.2),
+        frequency_penalty=kwargs.get("frequency_penalty", 0.0),
+        presence_penalty=kwargs.get("presence_penalty", 0.0),
+        stream=False,  # Set stream to False for non-streaming execution
+    )
+    
+    # Build the chat history based on the system message and user input
+    
+    # If no chat history is provided, create a new one
+    if not chat_history:
+        chat_history = new_chat_history()
+        
+    # Add the user input to the chat history
+    if user_input:
+        chat_history.add_user_message(user_input)
+        
+    # If system message is provided, initialize the chat for the prompt with it and the chat history, otherwise just the chat history
+    if system_message:
+        chat = ChatHistory(messages=chat_history.messages, system_message=system_message)
+    else:
+        chat = chat_history
+        
+    # Await the completion of the chat
+    completions = await chat_service.complete_chat(chat_history=chat, settings=chat_settings)
+
+    # Use the concatenated response
+    response_holder.write(completions[0].content)
+ 
+    return completions[0].content
+        

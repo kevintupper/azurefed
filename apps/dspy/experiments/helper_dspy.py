@@ -42,6 +42,7 @@ def get_dspy_client(service_id, **kwargs):
             api_key=AZURE_OPENAI_API_KEY, 
             deployment_id=AZURE_OPENAI_DEPLOYMENT_NAME_GPT_4,
             api_version=AZURE_OPENAI_API_VERSION,
+            model_type="chat",
             **kwargs
         )
     elif service_id == "gpt_35_turbo":
@@ -50,6 +51,13 @@ def get_dspy_client(service_id, **kwargs):
             api_key=AZURE_OPENAI_API_KEY, 
             deployment_id=AZURE_OPENAI_DEPLOYMENT_NAME_GPT_35_TURBO,
             api_version=AZURE_OPENAI_API_VERSION,
+            model_type="chat",
+            **kwargs
+        )
+    elif service_id == "mixtral":
+        client = dspy.OllamaLocal(
+            model="mixtral:latest",
+            model_type="text",
             **kwargs
         )
     else:
