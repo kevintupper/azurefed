@@ -6,18 +6,19 @@ import asyncio
 # Third-party imports
 import streamlit as st
 
-
 # Local imports
 from helpers import helper_auth as authentication
 from helpers import helper_utils as utils
-from helpers import helper_graphlit as graphlit
+from helpers import helper_graphlit 
+from helpers import helper_storage as storage
 
 #***********************************************************************************************
 # Menu Definition
 #***********************************************************************************************
 MENU_ITEMS = [
-    {"menu_title": "Docchat", "return_value": "docchat", "submenu": []},
-    {"menu_title": "Load Files", "return_value": "load_files", "submenu": []}
+    {"menu_title": "Introduction", "return_value": "introduction", "submenu": []},
+    {"menu_title": "Load Files", "return_value": "load_files", "submenu": []},
+    {"menu_title": "Doc Chat", "return_value": "docchat", "submenu": []},
 
     # Add your menu items here
     # {"menu_title": "Demo 2", "return_value": "demo_2", "submenu": [
@@ -32,6 +33,19 @@ MENU_ITEMS = [
 # Page Functions
 #***********************************************************************************************
 
+# Introduction Page
+async def introduction():
+    """
+    Display the introduction page.
+    """
+
+    # Set the page title
+    st.markdown("### Introduction")
+    st.write("Welcome to Doc Chat. This application allows you to interact with the Graphlit service to experience chat over documents. You can also upload files to Azure Blob Storage for further processing.")
+    st.markdown("**Current User Information**")
+    st.json(st.session_state.user_info)
+
+
 # Docchat Page
 async def docchat():
     """
@@ -40,8 +54,25 @@ async def docchat():
 
     # Set the page title
     st.markdown("### Doc Chat")
-    st.markdown("**Current User Information**")
-    st.json(st.session_state.user_info)
+
+    """
+    Each user has a unique alias that is used to store files in Azure Blob Storage. The alias is generated from the user's email address by removing the domain name.
+
+    **User Alias**: {authentication.get_user_alias(st.session_state.user_info)}
+
+    Create a Feed for the alias.  1 feed per user.
+
+    User has ability to manage their own file storage.
+
+    Graphlit service monitors changes to the feed to keep the vector space up to date.
+
+    When user deletes (KT needs to remove file from vector space)
+
+    Then Chat with user over files (enable citations, etc.)
+
+    
+    
+    """
 
 
 # Load Files Page
@@ -55,8 +86,11 @@ async def load_files():
     
     # Radio button to show tables of file types supported
     table_to_show = st.radio("Supported file types", ["Documents","Audio","Video","Images","Animations","Data","Emails","Code","Packages","Other"],label_visibility="collapsed", horizontal=True)
-    
-    
+
+    # Placeholder for uploaded_files_status message
+    uploaded_files_status = st.empty()
+
+
     # Display the supported file types based on the selected table
     file_types = []
     extra_info = None
@@ -92,7 +126,7 @@ async def load_files():
         file_types = ["dwf","dwfx","dxf","dwg","svg","geojson","shp","fbx","3ds","dae","gltf","glb","drc","obj","stl","usdz","las","laz","e57","ptx","pts","ply"]
     
     # Display the file uploader
-    uploaded_files = st.file_uploader("Upload a file", type=file_types, accept_multiple_files=True, label_visibility="collapsed")
+    uploaded_files = st.file_uploader("Upload a file", type=file_types, accept_multiple_files=True, label_visibility="collapsed", )
     
     # Display the supported file types table
     show_file_type_table(file_types_table)
@@ -103,10 +137,28 @@ async def load_files():
 
     # Check if files were uploaded
     if uploaded_files:
-        # Display the uploaded files
-        st.write("Uploaded files:")
-        for file in uploaded_files:
-            st.write(file.name)
+
+        # Create a user folder in Azure Blob Storage if it does not already exist
+        alias = authentication.get_user_alias(st.session_state.user_info)
+        storage.create_user_folder(alias)
+
+        # Upload the files and show the status
+        with uploaded_files_status.expander("Uploaded Files", expanded=True):
+
+            # Loop through the uploaded files
+            for file in uploaded_files:
+
+                # Blob name is the alias of the user and the name of the file
+                blob_name = f"{alias}/docchat/files/{file.name}"  
+                
+                # Read the file content
+                file_content = file.getvalue()
+                
+                # Upload the file content to Azure Blob Storage
+                storage.upload_blob(blob_name, file_content)
+                
+                # Optionally, you can show a success message for each upload
+                st.write(f"'{file.name}' uploaded successfully.")
 
 
 
@@ -316,11 +368,10 @@ async def initialize_app_session_state():
     if "app_initialized" not in st.session_state:
         
         # Initialize the graphlit service
-        graphlit.initialize_graphlit_service()
+        helper_graphlit.initialize_graphlit_service()
         
         # Initialize the session state variables
         st.session_state.app_initialized = True
-
 
 async def reset_app_session_state():
     """
@@ -329,7 +380,6 @@ async def reset_app_session_state():
    
     # Reset the session state variables
     st.session_state.app_initialized = False
-
 
 async def setup_styling_and_menu():
     """
@@ -375,7 +425,6 @@ async def setup_styling_and_menu():
                 selected_return_value = selected_menu_item["return_value"]
 
     return selected_return_value    
-
 
 # Display Page Content
 async def display_page_content(selected_return_value):

@@ -3,5 +3,6 @@ python-dotenv
 streamlit
 semantic-kernel
 msal
+azure-storage-blob
 
 # App sepcific packages

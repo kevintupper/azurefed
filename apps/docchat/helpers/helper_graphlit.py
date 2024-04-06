@@ -12,9 +12,6 @@ import streamlit as st
 from graphlit_client import Graphlit
 
 
-
-
-
 # Load environment variables locally if not on Azure, otherwise these will come from webapp config.
 if not os.getenv("ON_AZURE"):
     load_dotenv(override=True)
