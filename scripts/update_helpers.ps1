@@ -21,8 +21,9 @@ foreach ($dir in $directories) {
     Copy-Item -Path $HELPERS_FOLDER -Destination $dir.FullName -Recurse -Force
 
     # Copy the requirements.txt file to the current directory in the loop
-    $requirementsDestPath = Join-Path -Path $dir.FullName -ChildPath "requirements.txt"
-    Copy-Item -Path "requirements.txt" -Destination $requirementsDestPath -Force
+    # WE NO LONGER DO THIS SINCE THE LOCAL REQUIREMENTS.TXT FILE HAS ITS OWN LOCAL APP SPECIFIC REQUIREMENTS
+    # $requirementsDestPath = Join-Path -Path $dir.FullName -ChildPath "requirements.txt"
+    # Copy-Item -Path "requirements.txt" -Destination $requirementsDestPath -Force
 }
 
 Write-Output "Helpers folder copied to all app directories."

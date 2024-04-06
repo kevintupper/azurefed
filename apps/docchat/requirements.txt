@@ -1,0 +1,9 @@
+# Common packages for all our azurefed apps
+python-dotenv
+streamlit
+semantic-kernel
+msal
+
+# App sepcific packages
+pyjwt
+graphlit-client
