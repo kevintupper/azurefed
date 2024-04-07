@@ -2,6 +2,9 @@
 
 # Standard imports
 import asyncio
+import base64
+from datetime import datetime
+import time
 
 # Third-party imports
 import streamlit as st
@@ -55,24 +58,43 @@ async def docchat():
     # Set the page title
     st.markdown("### Doc Chat")
 
-    """
-    Each user has a unique alias that is used to store files in Azure Blob Storage. The alias is generated from the user's email address by removing the domain name.
+    if "messages" not in st.session_state:
+        st.session_state.messages = []
 
-    **User Alias**: {authentication.get_user_alias(st.session_state.user_info)}
+    for message in st.session_state.messages:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
 
-    Create a Feed for the alias.  1 feed per user.
+    if st.session_state['graphlit_specification_id'] is None:
+        error_message = helper_graphlit.create_specification()
 
-    User has ability to manage their own file storage.
+        if error_message is not None:
+            st.error(f"Failed to create specification. {error_message}")
 
-    Graphlit service monitors changes to the feed to keep the vector space up to date.
+    if st.session_state['graphlit_conversation_id'] is None:
+        error_message = helper_graphlit.create_conversation()
 
-    When user deletes (KT needs to remove file from vector space)
+    if error_message is not None:
+        st.error(f"Failed to create conversation. {error_message}")
 
-    Then Chat with user over files (enable citations, etc.)
+    try:
+        if prompt := st.chat_input("Ask me anything about your content."):
+            st.session_state.messages.append({"role": "user", "content": prompt})
+            
+            with st.chat_message("user"):
+                st.markdown(prompt)
+            
+            with st.chat_message("assistant"):
+                response, error_message = helper_graphlit.prompt_conversation(prompt)
+                
+                if error_message is not None:
+                    st.error(f"Failed to prompt conversation. {error_message}")
+                else:
+                    st.markdown(response)
+                    st.session_state.messages.append({"role": "assistant", "content": response})
+    except:
+        st.warning("You need to generate a token before chatting with your file.")
 
-    
-    
-    """
 
 
 # Load Files Page
@@ -82,8 +104,10 @@ async def load_files():
     """
 
     # Set the page title
-    st.markdown("### Load Files")
+    st.markdown("### Load File")
     
+    
+
     # Radio button to show tables of file types supported
     table_to_show = st.radio("Supported file types", ["Documents","Audio","Video","Images","Animations","Data","Emails","Code","Packages","Other"],label_visibility="collapsed", horizontal=True)
 
@@ -125,40 +149,105 @@ async def load_files():
         file_types_table, extra_info  = get_file_types_other()
         file_types = ["dwf","dwfx","dxf","dwg","svg","geojson","shp","fbx","3ds","dae","gltf","glb","drc","obj","stl","usdz","las","laz","e57","ptx","pts","ply"]
     
-    # Display the file uploader
-    uploaded_files = st.file_uploader("Upload a file", type=file_types, accept_multiple_files=True, label_visibility="collapsed", )
+    # Create a form for the file uploader    
+    with st.form("data_content_form"):    
+        if file_types:
+            # Display the file uploader
+            uploaded_file = st.file_uploader("Upload a file", type=file_types, accept_multiple_files=False, label_visibility="collapsed")
+
+            # Display the supported file types table
+            show_file_type_table(file_types_table)
+            
+            if extra_info:
+                st.write("")
+                st.info(extra_info)
+
+            submit_content = st.form_submit_button("Submit")
+
+            # Now, handle actions based on submit_data outside the form's scope
+            if submit_content and uploaded_file:
+                st.session_state.messages = []
+                st.session_state['graphlit_content_done'] = False
+
+                
+                # Make sure we have a token
+                if st.session_state.graphlit_token:      
+                     
+                    # Clean up previous session state
+                    if st.session_state['graphlit_workflow_id'] is None:
+                        error_message = helper_graphlit.create_workflow()
+
+                        if error_message is not None:
+                            st.error(f"Failed to create workflow. {error_message}")
+
+                    if st.session_state['graphlit_content_id'] is not None:
+                        with st.spinner('Deleting existing content... Please wait.'):
+                            helper_graphlit.delete_content()
+                        st.session_state["graphlit_content_id"] = None
+
+                    start_time = time.time()
+                        
+                    # Read the file content
+                    file_content = uploaded_file.getvalue()
+                    
+                    base64_content = base64.b64encode(file_content).decode('utf-8')
+
+                    # Display spinner while processing
+                    with st.spinner('Ingesting file... Please wait.'):
+                        error_message = helper_graphlit.ingest_file(uploaded_file.name, uploaded_file.type, base64_content)
+
+                        if error_message is not None:
+                            st.error(f"Failed to ingest file. {error_message}")
+                        else:
+                            duration = time.time() - start_time
+
+                            current_time = datetime.now()
+                            formatted_time = current_time.strftime("%H:%M:%S")
+
+                            st.success(f"File ingestion took {duration:.2f} seconds. Finished at {formatted_time} UTC.")
+
+                    # Once done, notify the user
+                    st.session_state["graphlit_content_done"] = True
+
+                    placeholder = st.empty()
+                else:
+                    st.error("Please fill in all the connection information.")
+        
+    ### KT'S CODE TO UPLOAD FILES TO BLOB    
+    # # Display the file uploader
+    # uploaded_files = st.file_uploader("Upload a file", type=file_types, accept_multiple_files=True, label_visibility="collapsed", )
     
-    # Display the supported file types table
-    show_file_type_table(file_types_table)
+    # # Display the supported file types table
+    # show_file_type_table(file_types_table)
     
-    if extra_info:
-        st.write("")
-        st.info(extra_info)
+    # if extra_info:
+    #     st.write("")
+    #     st.info(extra_info)
 
-    # Check if files were uploaded
-    if uploaded_files:
+    # # Check if files were uploaded
+    # if uploaded_files:
 
-        # Create a user folder in Azure Blob Storage if it does not already exist
-        alias = authentication.get_user_alias(st.session_state.user_info)
-        storage.create_user_folder(alias)
+    #     # Create a user folder in Azure Blob Storage if it does not already exist
+    #     alias = authentication.get_user_alias(st.session_state.user_info)
+    #     storage.create_user_folder(alias)
 
-        # Upload the files and show the status
-        with uploaded_files_status.expander("Uploaded Files", expanded=True):
+    #     # Upload the files and show the status
+    #     with uploaded_files_status.expander("Uploaded Files", expanded=True):
 
-            # Loop through the uploaded files
-            for file in uploaded_files:
+    #         # Loop through the uploaded files
+    #         for file in uploaded_files:
 
-                # Blob name is the alias of the user and the name of the file
-                blob_name = f"{alias}/docchat/files/{file.name}"  
+    #             # Blob name is the alias of the user and the name of the file
+    #             blob_name = f"{alias}/docchat/files/{file.name}"  
                 
-                # Read the file content
-                file_content = file.getvalue()
+    #             # Read the file content
+    #             file_content = file.getvalue()
                 
-                # Upload the file content to Azure Blob Storage
-                storage.upload_blob(blob_name, file_content)
+    #             # Upload the file content to Azure Blob Storage
+    #             storage.upload_blob(blob_name, file_content)
                 
-                # Optionally, you can show a success message for each upload
-                st.write(f"'{file.name}' uploaded successfully.")
+    #             # Optionally, you can show a success message for each upload
+    #             st.write(f"'{file.name}' uploaded successfully.")
 
 
 
