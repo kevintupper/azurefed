@@ -222,7 +222,7 @@ def create_specification():
             # TODO: requires new PROD release
             "retrievalStrategy": {
                 "type": "SECTION",
-                "contentLimit": 10,
+                "contentLimit": 100,
             },
 #            "rerankingStrategy": {
 #                "serviceType": "COHERE"

@@ -91,7 +91,7 @@ async def docchat():
                     st.error(f"Failed to prompt conversation. {error_message}")
                 else:
                     # Escape the $ in the response.
-                    response = response.replace("$", "\$")
+                    response = response.replace("$", "\\$")
                     st.markdown(response)
                     st.session_state.messages.append({"role": "assistant", "content": response})
     except:
@@ -230,6 +230,16 @@ async def load_files():
                     placeholder = st.empty()
                 else:
                     st.error("Please fill in all the connection information.")
+                    
+    # Side bar to reset chat.
+    with st.sidebar:
+        if st.button("Remove All Documents"):
+
+            # Remove all documents.
+            helper_graphlit.delete_all_contents()
+
+            # Rerun.
+            st.rerun()
         
     ### KT'S CODE TO UPLOAD FILES TO BLOB    
     # # Display the file uploader
