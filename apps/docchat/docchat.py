@@ -74,8 +74,8 @@ async def docchat():
     if st.session_state['graphlit_conversation_id'] is None:
         error_message = helper_graphlit.create_conversation()
 
-    if error_message is not None:
-        st.error(f"Failed to create conversation. {error_message}")
+        if error_message is not None:
+            st.error(f"Failed to create conversation. {error_message}")
 
     try:
         if prompt := st.chat_input("Ask me anything about your content."):
@@ -90,10 +90,28 @@ async def docchat():
                 if error_message is not None:
                     st.error(f"Failed to prompt conversation. {error_message}")
                 else:
+                    # Escape the $ in the response.
+                    response = response.replace("$", "\$")
                     st.markdown(response)
                     st.session_state.messages.append({"role": "assistant", "content": response})
     except:
         st.warning("You need to generate a token before chatting with your file.")
+        
+    
+    # Side bar to reset chat.
+    with st.sidebar:
+        if st.button("New chat"):
+            
+            # Delete messages.
+            del st.session_state["messages"]
+            
+            # Delete conversation.
+            st.session_state['graphlit_conversation_id'] = None
+            
+            # Rerun.
+            st.rerun()
+
+
 
 
 
