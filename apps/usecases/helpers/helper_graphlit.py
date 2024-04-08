@@ -221,12 +221,12 @@ def create_specification():
             },
             # TODO: requires new PROD release
             "retrievalStrategy": {
-                "type": "SECTION",
+                "type": "CONTENT",
                 "contentLimit": 10,
             },
-#            "rerankingStrategy": {
-#                "serviceType": "COHERE"
-#            },
+            "rerankingStrategy": {
+                "serviceType": "COHERE"
+            },
             "name": "Completion"
         }
     }

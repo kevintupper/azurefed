@@ -14,6 +14,8 @@
 
 3. Deploy the app to the dev environment
 
+    - az login and select the correct subscription
+
     ```powershell
     ./scripts/deploy_app.ps1 -appName <appName>
     ```
