@@ -85,3 +85,31 @@ def insert_custom_css(css_file):
     """
     # Insert the custom CSS into the app
     st.markdown(get_custom_css(css_file), unsafe_allow_html=True)
+
+
+
+# Function to display a local image file
+def display_local_image(image_file):
+    """
+    Displays a local image file in a Streamlit application.
+
+    Args:
+        image_file (str): Path to the image file.
+
+    If the file is not found or cannot be opened as an image, an error message is displayed.
+    """
+    try:
+        # Open the local image file
+        image = Image.open(image_file)
+        st.image(image, use_column_width=True)
+    except FileNotFoundError:
+        error_msg = f"Error: The slide '{image_file}' cannot be found. Please check the file path."
+        st.error(error_msg)
+        logging.error(error_msg)
+    except UnidentifiedImageError:
+        error_msg = f"Error: The file '{image_file}' is not a recognizable image format."
+        st.error(error_msg)
+        logging.error(error_msg)
+    except Exception as e:
+        error_msg = f"Error presenting the '{image_file}' slide: {e}"
+        st.error(error_msg)
