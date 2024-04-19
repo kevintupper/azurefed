@@ -6,3 +6,7 @@ msal
 azure-storage-blob
 
 # App sepcific packages
+phidata
+duckduckgo-search
+newspaper4k
+lxml_html_clean

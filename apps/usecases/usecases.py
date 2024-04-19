@@ -10,6 +10,7 @@ import streamlit as st
 # Local imports
 from helpers import helper_auth as authentication
 from helpers import helper_utils as utils
+from helpers import helper_phidata as helper_phidata
 
 #***********************************************************************************************
 # Menu Definition
@@ -50,6 +51,16 @@ async def innovate_1():
     # Set the page title
     st.markdown("### Innovate 1")
     st.markdown("This is the Innovate 1 page.")
+
+    # Get a prompt from the user
+    prompt = st.text_input("Enter a prompt", "What is the capital of France?")
+
+    # Get an assistant.
+    assistant = helper_phidata.get_assistant()
+
+    # Run the assistant
+    if st.button("Run Assistant"):
+        assistant.print_response(prompt)
 
 # Innovate 2
 async def innovate_2():
