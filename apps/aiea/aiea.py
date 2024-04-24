@@ -15,13 +15,11 @@ from helpers import helper_utils as utils
 # Menu Definition
 #***********************************************************************************************
 MENU_ITEMS = [
-    {"menu_title": "Aiea", "return_value": "aiea", "submenu": []},
 
-    # Add your menu items here
-    # {"menu_title": "Demo 2", "return_value": "demo_2", "submenu": [
-    #     {"menu_title": "Next 1", "return_value": "demo_2_next_1"},
-    #     {"menu_title": "Next 2", "return_value": "demo_2_next_2"},
-    # ]},
+    {"menu_title": "Content Generation", "return_value": "content_generator", "submenu": [
+        {"menu_title": "Guidance", "return_value": "guidance"},
+        {"menu_title": "Next 2", "return_value": "demo_2_next_2"},
+    ]},
 
 ]
 
@@ -30,17 +28,53 @@ MENU_ITEMS = [
 # Page Functions
 #***********************************************************************************************
 
-# Aiea Page
-async def aiea():
+# Content Generation - Guidance Page
+async def guidance():
     """
     Display the aiea page.
     """
 
     # Set the page title
-    st.markdown("### Aiea App - Azure Fed Demo Environment")
-    st.markdown("**Current User Information**")
-    st.json(st.session_state.user_info)
+    st.markdown("### Content Generation - Guidance")
+    
+    # Get type of content to generate
+    content_type = st.radio("Type", ["Social Post", "Video Talk Track", "LinkedIn Article", "Research Paper"], index=0, horizontal=True)
+    
+    # Topic
+    topic = st.text_area("Topic", placeholder="Enter the topic with as much specificity as possible or instruct agent to refine topic.")
 
+    # Target Audience    
+    target_audience = st.text_area("Target Audience", placeholder="Enter the target audience with as much specifity as possible.")
+
+    # Tone/Style
+    default_tone_style = """Maintain a warm and engaging tone that is welcoming yet professional.
+Address the target audience directly and plainly. Avoid jargon and complex terms to ensure clarity and accessibility.
+Write at an 8th grade reading level, using straightforward languages.
+When explaining complex concepts, break them down into bite-sized, easily digestible parts.
+Assume the reader is intelligent. Use analogies sparingly, only when necessary to clarify particularly challenging ideas.
+Avoid salesy language and focus on providing value to the reader."""
+        
+    tone_style = st.text_area("Tone/Style", value=default_tone_style, height=200)
+    
+    # Content Length
+    content_length = st.text_input("Content Length", placeholder="Enter the approximate length and density of the content.")
+    
+    # Ideas to Include
+    ideas_to_include = st.text_area("Ideas to Include", placeholder="Enter key points or ideas you want included.")
+    
+    # Resources
+    resources = st.text_area("Resources", placeholder="List any specific resources or links to include in the research.")
+
+    # Checkbox for human in the loop
+    human_in_the_loop = st.checkbox("Human in the Loop", value=False, help="Check this box if you want a human to review or intervene in the content generation process.")
+
+    # Submit button
+    submit_button = st.button("Submit")
+
+    if submit_button:
+        st.success("Form submitted successfully!")
+        # Here, you would typically handle the form submission logic, such as saving the data or passing it to another function.
+        # User guidance
 
 
 
