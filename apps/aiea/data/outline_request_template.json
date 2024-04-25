@@ -1,0 +1,13 @@
+{
+  "topic": "<Insert topic here>",
+  "content_type": "<Specify type of content, e.g., article, blog post, report>",
+  "target_audience": "<Define the target audience, e.g., industry professionals, general public, specific age group>",
+  "purpose": "<Describe the purpose of the content, e.g., to inform, persuade, entertain>",
+  "words": "<Specify word count range, e.g., 2000-3000>",
+  "key_ideas_to_include": [
+    "<Idea 1>",
+    "<Idea 2>",
+    "<Idea 3>"
+  ],
+  "author_role": "<Describe the role or perspective of the author, e.g., expert, observer, participant>"
+}

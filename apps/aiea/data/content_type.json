@@ -1,0 +1,20 @@
+[
+  {
+    "content_type": "Executive Briefing",
+    "description": "Concise, critical insights and actionable recommendations tailored for decision-makers.",
+    "words": "500-1000",
+    "purpose": "To inform and provide actionable insights to high-level decision-makers quickly and efficiently."
+  },
+  {
+    "content_type": "Curated Content",
+    "description": "Compilation and synthesis of content from various sources around a specific theme or question, providing a broad perspective.",
+    "words": "1500-2000",
+    "purpose": "To offer a comprehensive overview of a topic by integrating various viewpoints and sources."
+  },
+  {
+    "content_type": "Thought Leadership Article",
+    "description": "In-depth exploration of innovative ideas and insights that provoke thought and discussion within the field.",
+    "words": "2000-3000",
+    "purpose": "To establish the author as a forward-thinking leader and stimulate intellectual and professional discussion."
+  }
+]
