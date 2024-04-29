@@ -6,3 +6,4 @@ msal
 azure-storage-blob
 
 # App sepcific packages
+ollama

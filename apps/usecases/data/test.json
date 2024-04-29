@@ -1,0 +1,1717 @@
+[
+  {
+    "text": "all of you uh know Andreu in as a famous",
+    "start": 3.56,
+    "duration": 4.44
+  },
+  {
+    "text": "uh computer science professor at",
+    "start": 6.48,
+    "duration": 4.4
+  },
+  {
+    "text": "Stanford was really early on in the",
+    "start": 8.0,
+    "duration": 5.96
+  },
+  {
+    "text": "development of neural networks with gpus",
+    "start": 10.88,
+    "duration": 4.839
+  },
+  {
+    "text": "of course a creator of corsera and",
+    "start": 13.96,
+    "duration": 3.319
+  },
+  { "text": "popular courses like", "start": 15.719, "duration": 4.161 },
+  {
+    "text": "deeplearning.ai also the founder and",
+    "start": 17.279,
+    "duration": 5.561
+  },
+  {
+    "text": "Creator uh and early lead of Google",
+    "start": 19.88,
+    "duration": 4.8
+  },
+  {
+    "text": "brain uh but one thing I've always",
+    "start": 22.84,
+    "duration": 3.56
+  },
+  {
+    "text": "wanted to ask you before I hand it over",
+    "start": 24.68,
+    "duration": 5.839
+  },
+  {
+    "text": "Andrew while you're on stage uh is a",
+    "start": 26.4,
+    "duration": 5.24
+  },
+  {
+    "text": "question I think would be relevant to",
+    "start": 30.519,
+    "duration": 4.761
+  },
+  {
+    "text": "the whole audience 10 years ago on",
+    "start": 31.64,
+    "duration": 6.48
+  },
+  {
+    "text": "problem set number two of cs229 you gave",
+    "start": 35.28,
+    "duration": 4.32
+  },
+  { "text": "me a", "start": 38.12, "duration": 4.16 },
+  {
+    "text": "b and I was wondering I looked it over I",
+    "start": 39.6,
+    "duration": 5.119
+  },
+  {
+    "text": "was wondering what you saw that I did",
+    "start": 42.28,
+    "duration": 5.24
+  },
+  {
+    "text": "incorrectly so anyway Andrew thank you",
+    "start": 44.719,
+    "duration": 4.36
+  },
+  {
+    "text": "Hansen um looking forward to sharing",
+    "start": 47.52,
+    "duration": 4.16
+  },
+  {
+    "text": "with all of you what I'm seeing with AI",
+    "start": 49.079,
+    "duration": 4.361
+  },
+  {
+    "text": "agents which I think is the exciting",
+    "start": 51.68,
+    "duration": 4.359
+  },
+  {
+    "text": "Trend that I think everyone building in",
+    "start": 53.44,
+    "duration": 4.48
+  },
+  {
+    "text": "AI should pay attention to and then also",
+    "start": 56.039,
+    "duration": 4.0
+  },
+  {
+    "text": "excited about all all the other uh on",
+    "start": 57.92,
+    "duration": 5.279
+  },
+  {
+    "text": "Sak presentations so hey agents you know",
+    "start": 60.039,
+    "duration": 5.681
+  },
+  {
+    "text": "today the way most of us use Lish models",
+    "start": 63.199,
+    "duration": 4.56
+  },
+  {
+    "text": "is like this with a non- agentic",
+    "start": 65.72,
+    "duration": 4.56
+  },
+  {
+    "text": "workflow where you type a prompt and",
+    "start": 67.759,
+    "duration": 4.521
+  },
+  {
+    "text": "generates an answer and that's a bit",
+    "start": 70.28,
+    "duration": 4.4
+  },
+  {
+    "text": "like if you ask a person to write an",
+    "start": 72.28,
+    "duration": 4.479
+  },
+  {
+    "text": "essay on a topic and I say please sit",
+    "start": 74.68,
+    "duration": 4.079
+  },
+  {
+    "text": "down to the keyboard and just type the",
+    "start": 76.759,
+    "duration": 4.521
+  },
+  {
+    "text": "essay from start to finish without ever",
+    "start": 78.759,
+    "duration": 5.521
+  },
+  {
+    "text": "using backspace um and despite how hard",
+    "start": 81.28,
+    "duration": 6.44
+  },
+  {
+    "text": "thises is L's do it remarkably well in",
+    "start": 84.28,
+    "duration": 6.519
+  },
+  {
+    "text": "contrast with an agentic workflow this",
+    "start": 87.72,
+    "duration": 4.96
+  },
+  {
+    "text": "is what it may look like have an AI have",
+    "start": 90.799,
+    "duration": 4.68
+  },
+  {
+    "text": "an LM say write an essay outline do you",
+    "start": 92.68,
+    "duration": 5.04
+  },
+  {
+    "text": "need to do any web research if so let's",
+    "start": 95.479,
+    "duration": 4.801
+  },
+  {
+    "text": "do that then write the first draft and",
+    "start": 97.72,
+    "duration": 5.12
+  },
+  {
+    "text": "then read your own first draft and think",
+    "start": 100.28,
+    "duration": 5.0
+  },
+  {
+    "text": "about what parts need revision and then",
+    "start": 102.84,
+    "duration": 4.959
+  },
+  {
+    "text": "revise your draft and you go on and on",
+    "start": 105.28,
+    "duration": 4.24
+  },
+  {
+    "text": "and so this workflow is much more",
+    "start": 107.799,
+    "duration": 4.6
+  },
+  {
+    "text": "iterative where you may have the L do",
+    "start": 109.52,
+    "duration": 6.08
+  },
+  {
+    "text": "some thinking um and then revise this",
+    "start": 112.399,
+    "duration": 5.561
+  },
+  {
+    "text": "article and then do some more thinking",
+    "start": 115.6,
+    "duration": 4.559
+  },
+  {
+    "text": "and iterate this through a number of",
+    "start": 117.96,
+    "duration": 4.199
+  },
+  {
+    "text": "times and what not many people",
+    "start": 120.159,
+    "duration": 5.161
+  },
+  {
+    "text": "appreciate is this delivers remarkably",
+    "start": 122.159,
+    "duration": 5.24
+  },
+  {
+    "text": "better results um I've actually been",
+    "start": 125.32,
+    "duration": 3.6
+  },
+  {
+    "text": "really surprised myself working these",
+    "start": 127.399,
+    "duration": 3.881
+  },
+  {
+    "text": "agent workflows how well how well they",
+    "start": 128.92,
+    "duration": 5.16
+  },
+  {
+    "text": "work I's do one case study at my team",
+    "start": 131.28,
+    "duration": 5.28
+  },
+  {
+    "text": "analyzed some data uh using a coding",
+    "start": 134.08,
+    "duration": 4.36
+  },
+  {
+    "text": "Benchmark called the human eval",
+    "start": 136.56,
+    "duration": 3.6
+  },
+  {
+    "text": "Benchmark released by open a few years",
+    "start": 138.44,
+    "duration": 4.32
+  },
+  {
+    "text": "ago um but this says coding problems",
+    "start": 140.16,
+    "duration": 5.079
+  },
+  {
+    "text": "like given the nonent list of integers",
+    "start": 142.76,
+    "duration": 4.04
+  },
+  {
+    "text": "return the sum of all the all elements",
+    "start": 145.239,
+    "duration": 3.801
+  },
+  {
+    "text": "are an even positions and it turns out",
+    "start": 146.8,
+    "duration": 4.24
+  },
+  {
+    "text": "the answer is you code snipper like that",
+    "start": 149.04,
+    "duration": 4.6
+  },
+  {
+    "text": "so today lot of us will use zero shot",
+    "start": 151.04,
+    "duration": 4.8
+  },
+  {
+    "text": "prompting meaning we tell the AI write",
+    "start": 153.64,
+    "duration": 3.879
+  },
+  {
+    "text": "the code and have it run on the first",
+    "start": 155.84,
+    "duration": 3.44
+  },
+  {
+    "text": "spot like who codes like that no human",
+    "start": 157.519,
+    "duration": 3.44
+  },
+  {
+    "text": "codes like that just type out the code",
+    "start": 159.28,
+    "duration": 4.64
+  },
+  {
+    "text": "and run it maybe you do I can't do that",
+    "start": 160.959,
+    "duration": 5.841
+  },
+  {
+    "text": "um so it turns out that if you use GPT",
+    "start": 163.92,
+    "duration": 6.12
+  },
+  {
+    "text": "3.5 uh zero shot prompting it gets it",
+    "start": 166.8,
+    "duration": 8.68
+  },
+  {
+    "text": "48% right uh gp4 way better 607 7% right",
+    "start": 170.04,
+    "duration": 7.64
+  },
+  {
+    "text": "but if you take an agentic workflow and",
+    "start": 175.48,
+    "duration": 5.64
+  },
+  {
+    "text": "wrap it around GPT 3.5 I say it actually",
+    "start": 177.68,
+    "duration": 5.76
+  },
+  { "text": "does better than even", "start": 181.12, "duration": 5.44 },
+  {
+    "text": "gbd4 um and if you were to wrap this",
+    "start": 183.44,
+    "duration": 5.719
+  },
+  {
+    "text": "type of workflow around gb4 you know it",
+    "start": 186.56,
+    "duration": 5.84
+  },
+  {
+    "text": "it it also um does very well and you",
+    "start": 189.159,
+    "duration": 6.121
+  },
+  {
+    "text": "notice that gbd 3.5 with an agentic",
+    "start": 192.4,
+    "duration": 6.28
+  },
+  {
+    "text": "workflow actually outperforms",
+    "start": 195.28,
+    "duration": 6.64
+  },
+  {
+    "text": "gp4 um and I think this has and this",
+    "start": 198.68,
+    "duration": 5.44
+  },
+  {
+    "text": "means that this has signant consequences",
+    "start": 201.92,
+    "duration": 4.64
+  },
+  {
+    "text": "fighting how we all approach building",
+    "start": 204.12,
+    "duration": 5.839
+  },
+  {
+    "text": "applications so agents is the ter of",
+    "start": 206.56,
+    "duration": 5.2
+  },
+  {
+    "text": "around a lot there's a lot of consultant",
+    "start": 209.959,
+    "duration": 3.601
+  },
+  {
+    "text": "reports talk about agents the future of",
+    "start": 211.76,
+    "duration": 3.64
+  },
+  {
+    "text": "AI blah blah blah I want to be a bit",
+    "start": 213.56,
+    "duration": 4.64
+  },
+  {
+    "text": "concrete and share of you um the broad",
+    "start": 215.4,
+    "duration": 5.199
+  },
+  {
+    "text": "design patterns I'm seeing in agents",
+    "start": 218.2,
+    "duration": 4.36
+  },
+  {
+    "text": "it's a very messy chaotic space tons of",
+    "start": 220.599,
+    "duration": 3.681
+  },
+  {
+    "text": "research tons of Open Source there's a",
+    "start": 222.56,
+    "duration": 4.36
+  },
+  {
+    "text": "lot going on but I try to categorize um",
+    "start": 224.28,
+    "duration": 4.48
+  },
+  {
+    "text": "bit more concretely what's going on",
+    "start": 226.92,
+    "duration": 5.039
+  },
+  {
+    "text": "agents reflection is a tool that I think",
+    "start": 228.76,
+    "duration": 5.36
+  },
+  {
+    "text": "many of us should just use it just works",
+    "start": 231.959,
+    "duration": 4.2
+  },
+  {
+    "text": "uh to use I think it's more widely",
+    "start": 234.12,
+    "duration": 3.56
+  },
+  {
+    "text": "appreciated but actually works pretty",
+    "start": 236.159,
+    "duration": 3.16
+  },
+  {
+    "text": "well I think of these as pretty robust",
+    "start": 237.68,
+    "duration": 3.68
+  },
+  {
+    "text": "technology when I use them I can you",
+    "start": 239.319,
+    "duration": 4.721
+  },
+  {
+    "text": "know almost always get them to work well",
+    "start": 241.36,
+    "duration": 4.599
+  },
+  { "text": "um planning and multi-agent", "start": 244.04, "duration": 4.44 },
+  {
+    "text": "collaboration I think is more emerging",
+    "start": 245.959,
+    "duration": 4.081
+  },
+  {
+    "text": "when I use them sometimes my mind is",
+    "start": 248.48,
+    "duration": 3.599
+  },
+  {
+    "text": "blown for how well they work but at",
+    "start": 250.04,
+    "duration": 3.68
+  },
+  {
+    "text": "least at this moment in time I don't",
+    "start": 252.079,
+    "duration": 3.44
+  },
+  {
+    "text": "feel like I can always get them to work",
+    "start": 253.72,
+    "duration": 4.4
+  },
+  {
+    "text": "Rel Lively so let me walk through these",
+    "start": 255.519,
+    "duration": 4.56
+  },
+  {
+    "text": "four design patterns in the few slides",
+    "start": 258.12,
+    "duration": 4.32
+  },
+  {
+    "text": "and if some of you go back and yourself",
+    "start": 260.079,
+    "duration": 3.961
+  },
+  {
+    "text": "will ask your engineers to use these I",
+    "start": 262.44,
+    "duration": 3.68
+  },
+  {
+    "text": "think you get a productivity boost quite",
+    "start": 264.04,
+    "duration": 5.12
+  },
+  {
+    "text": "quickly so reflection here's an example",
+    "start": 266.12,
+    "duration": 5.84
+  },
+  {
+    "text": "let's say ask a system please write code",
+    "start": 269.16,
+    "duration": 5.64
+  },
+  {
+    "text": "for me for a given task then we have a",
+    "start": 271.96,
+    "duration": 5.239
+  },
+  {
+    "text": "coder agent just an LM that you prompt",
+    "start": 274.8,
+    "duration": 5.239
+  },
+  {
+    "text": "to write code to say you def du task",
+    "start": 277.199,
+    "duration": 5.72
+  },
+  {
+    "text": "write a function like that um an example",
+    "start": 280.039,
+    "duration": 3.761
+  },
+  { "text": "of", "start": 282.919, "duration": 3.0 },
+  {
+    "text": "self-reflection would be if you then",
+    "start": 283.8,
+    "duration": 4.119
+  },
+  {
+    "text": "prompt the LM with something like this",
+    "start": 285.919,
+    "duration": 4.081
+  },
+  {
+    "text": "here's code intended for a toas and just",
+    "start": 287.919,
+    "duration": 3.681
+  },
+  {
+    "text": "give it back the exact same code that",
+    "start": 290.0,
+    "duration": 3.759
+  },
+  {
+    "text": "they just generated and then say check",
+    "start": 291.6,
+    "duration": 3.96
+  },
+  {
+    "text": "the code carefully for correctness sound",
+    "start": 293.759,
+    "duration": 3.481
+  },
+  {
+    "text": "efficiency good construction CRI just",
+    "start": 295.56,
+    "duration": 3.6
+  },
+  {
+    "text": "write prompt like that it turns out the",
+    "start": 297.24,
+    "duration": 3.88
+  },
+  {
+    "text": "same l that you prompted to write the",
+    "start": 299.16,
+    "duration": 4.44
+  },
+  {
+    "text": "code may be able to spot problems like",
+    "start": 301.12,
+    "duration": 4.68
+  },
+  {
+    "text": "this bug in line Five May fix it by blah",
+    "start": 303.6,
+    "duration": 4.24
+  },
+  {
+    "text": "blah blah and if you now take his own",
+    "start": 305.8,
+    "duration": 3.72
+  },
+  {
+    "text": "feedback and give it to it and reprompt",
+    "start": 307.84,
+    "duration": 4.16
+  },
+  {
+    "text": "it it may come up with a version two of",
+    "start": 309.52,
+    "duration": 4.0
+  },
+  {
+    "text": "the code that could well work better",
+    "start": 312.0,
+    "duration": 3.16
+  },
+  {
+    "text": "than the first version not guaranteed",
+    "start": 313.52,
+    "duration": 3.84
+  },
+  {
+    "text": "but it works you know often enough for",
+    "start": 315.16,
+    "duration": 4.2
+  },
+  {
+    "text": "this be wor trying for a lot of",
+    "start": 317.36,
+    "duration": 5.6
+  },
+  {
+    "text": "applications um to foreshadow to use if",
+    "start": 319.36,
+    "duration": 5.839
+  },
+  {
+    "text": "you let it run unit test if it fails a",
+    "start": 322.96,
+    "duration": 4.359
+  },
+  {
+    "text": "unit test then he why do you fail the",
+    "start": 325.199,
+    "duration": 3.801
+  },
+  {
+    "text": "unit test have that conversation and be",
+    "start": 327.319,
+    "duration": 3.921
+  },
+  {
+    "text": "able to figure out fail the unit test so",
+    "start": 329.0,
+    "duration": 3.8
+  },
+  {
+    "text": "you should try changing something and",
+    "start": 331.24,
+    "duration": 4.64
+  },
+  {
+    "text": "come up with V3 by the way for those of",
+    "start": 332.8,
+    "duration": 4.239
+  },
+  {
+    "text": "you that want to learn more about these",
+    "start": 335.88,
+    "duration": 2.96
+  },
+  {
+    "text": "Technologies I'm very excited about them",
+    "start": 337.039,
+    "duration": 3.44
+  },
+  {
+    "text": "for each of the four sections I have a",
+    "start": 338.84,
+    "duration": 3.24
+  },
+  {
+    "text": "little recommended reading section at",
+    "start": 340.479,
+    "duration": 3.801
+  },
+  {
+    "text": "the bottom that you know hopefully gives",
+    "start": 342.08,
+    "duration": 4.16
+  },
+  {
+    "text": "more references and again just the",
+    "start": 344.28,
+    "duration": 4.52
+  },
+  {
+    "text": "foreshadow multi-agent systems I've",
+    "start": 346.24,
+    "duration": 5.04
+  },
+  {
+    "text": "described as a single coder agent that",
+    "start": 348.8,
+    "duration": 4.119
+  },
+  {
+    "text": "you prompt to have it you know have this",
+    "start": 351.28,
+    "duration": 4.12
+  },
+  {
+    "text": "conversation with itself um one Natural",
+    "start": 352.919,
+    "duration": 4.84
+  },
+  {
+    "text": "Evolution of this idea is instead of a",
+    "start": 355.4,
+    "duration": 5.04
+  },
+  {
+    "text": "single code agent you can can have two",
+    "start": 357.759,
+    "duration": 5.081
+  },
+  {
+    "text": "agents where one is a coder agent and",
+    "start": 360.44,
+    "duration": 5.319
+  },
+  {
+    "text": "the second is a Critic agent and these",
+    "start": 362.84,
+    "duration": 5.88
+  },
+  {
+    "text": "could be the same base LM model but that",
+    "start": 365.759,
+    "duration": 4.521
+  },
+  {
+    "text": "you prompt in different ways where you",
+    "start": 368.72,
+    "duration": 4.039
+  },
+  {
+    "text": "say one your expert coder right code the",
+    "start": 370.28,
+    "duration": 4.4
+  },
+  {
+    "text": "other one say your expert code review to",
+    "start": 372.759,
+    "duration": 3.601
+  },
+  {
+    "text": "review this code and this Tye of",
+    "start": 374.68,
+    "duration": 3.4
+  },
+  {
+    "text": "workflow is actually pretty easy to",
+    "start": 376.36,
+    "duration": 3.52
+  },
+  {
+    "text": "implement I think it's such a very",
+    "start": 378.08,
+    "duration": 3.88
+  },
+  {
+    "text": "general purpose technology for a lot of",
+    "start": 379.88,
+    "duration": 3.28
+  },
+  {
+    "text": "workflows this would give you a",
+    "start": 381.96,
+    "duration": 3.2
+  },
+  {
+    "text": "significant boost in in the performance",
+    "start": 383.16,
+    "duration": 5.319
+  },
+  {
+    "text": "of LMS um the second design pattern is",
+    "start": 385.16,
+    "duration": 5.84
+  },
+  {
+    "text": "to use many of where already have seen",
+    "start": 388.479,
+    "duration": 5.12
+  },
+  {
+    "text": "you know LM based systems uh uh using",
+    "start": 391.0,
+    "duration": 5.36
+  },
+  {
+    "text": "tools on the left is a screenshot from",
+    "start": 393.599,
+    "duration": 5.44
+  },
+  {
+    "text": "um co-pilot on the right is something",
+    "start": 396.36,
+    "duration": 5.64
+  },
+  {
+    "text": "that I kind of extracted from uh gp4 but",
+    "start": 399.039,
+    "duration": 5.28
+  },
+  {
+    "text": "you know LM today if you ask it what's",
+    "start": 402.0,
+    "duration": 4.24
+  },
+  {
+    "text": "the best coffee maker web search for",
+    "start": 404.319,
+    "duration": 4.44
+  },
+  {
+    "text": "some problems um will generate code and",
+    "start": 406.24,
+    "duration": 5.2
+  },
+  {
+    "text": "run code um and it turns out that there",
+    "start": 408.759,
+    "duration": 4.961
+  },
+  {
+    "text": "are a lot of different tools that many",
+    "start": 411.44,
+    "duration": 4.759
+  },
+  {
+    "text": "different people are using for analysis",
+    "start": 413.72,
+    "duration": 4.56
+  },
+  {
+    "text": "for gathering information for taking",
+    "start": 416.199,
+    "duration": 4.081
+  },
+  {
+    "text": "action for personal productivity",
+    "start": 418.28,
+    "duration": 3.84
+  },
+  {
+    "text": "um it turns out a lot of the early work",
+    "start": 420.28,
+    "duration": 3.639
+  },
+  {
+    "text": "in two use turned out to be in the",
+    "start": 422.12,
+    "duration": 4.6
+  },
+  {
+    "text": "computer vision Community because before",
+    "start": 423.919,
+    "duration": 5.161
+  },
+  {
+    "text": "large language models lm's you know they",
+    "start": 426.72,
+    "duration": 4.0
+  },
+  {
+    "text": "couldn't do anything with images so the",
+    "start": 429.08,
+    "duration": 4.239
+  },
+  {
+    "text": "only option was that the LM generate a",
+    "start": 430.72,
+    "duration": 4.4
+  },
+  {
+    "text": "function called that could manipulate an",
+    "start": 433.319,
+    "duration": 3.961
+  },
+  {
+    "text": "image like generate an image or do",
+    "start": 435.12,
+    "duration": 3.479
+  },
+  {
+    "text": "object detection or whatever so if you",
+    "start": 437.28,
+    "duration": 3.12
+  },
+  {
+    "text": "actually look at literature it's been",
+    "start": 438.599,
+    "duration": 4.121
+  },
+  {
+    "text": "interesting how much of the work um in",
+    "start": 440.4,
+    "duration": 5.199
+  },
+  {
+    "text": "two years seems like it originated from",
+    "start": 442.72,
+    "duration": 5.159
+  },
+  {
+    "text": "Vision because LMS would blind to images",
+    "start": 445.599,
+    "duration": 5.44
+  },
+  {
+    "text": "before you know gp4 and and and lava and",
+    "start": 447.879,
+    "duration": 6.241
+  },
+  {
+    "text": "so on um so that's two use and it",
+    "start": 451.039,
+    "duration": 7.521
+  },
+  {
+    "text": "expands what an LM can do um and then",
+    "start": 454.12,
+    "duration": 6.12
+  },
+  {
+    "text": "planning you know for those of you that",
+    "start": 458.56,
+    "duration": 3.56
+  },
+  {
+    "text": "have not yet played a lot with planning",
+    "start": 460.24,
+    "duration": 4.079
+  },
+  {
+    "text": "algorithms I I feel like a lot of people",
+    "start": 462.12,
+    "duration": 4.4
+  },
+  {
+    "text": "talk about the chat GPT moment where",
+    "start": 464.319,
+    "duration": 4.361
+  },
+  {
+    "text": "you're wow never seen anything like this",
+    "start": 466.52,
+    "duration": 4.959
+  },
+  {
+    "text": "I think if not used planning alums many",
+    "start": 468.68,
+    "duration": 5.72
+  },
+  {
+    "text": "people will have a kind of a AI agent",
+    "start": 471.479,
+    "duration": 5.201
+  },
+  {
+    "text": "wow I couldn't imagine the AI agent",
+    "start": 474.4,
+    "duration": 4.6
+  },
+  {
+    "text": "doing this I've run live demos where",
+    "start": 476.68,
+    "duration": 4.359
+  },
+  {
+    "text": "something failed and the AI agent",
+    "start": 479.0,
+    "duration": 3.919
+  },
+  {
+    "text": "rerouted around the failures I've",
+    "start": 481.039,
+    "duration": 3.921
+  },
+  {
+    "text": "actually had quite a few of those moment",
+    "start": 482.919,
+    "duration": 4.24
+  },
+  {
+    "text": "wow you can't believe my AI system just",
+    "start": 484.96,
+    "duration": 5.519
+  },
+  {
+    "text": "did that autonomously but um one example",
+    "start": 487.159,
+    "duration": 5.72
+  },
+  {
+    "text": "that I adapted from a hugging GPT paper",
+    "start": 490.479,
+    "duration": 4.241
+  },
+  {
+    "text": "you know you say this general image",
+    "start": 492.879,
+    "duration": 3.16
+  },
+  {
+    "text": "where the girls read where a girl is",
+    "start": 494.72,
+    "duration": 2.72
+  },
+  {
+    "text": "reading a book and it posts the same as",
+    "start": 496.039,
+    "duration": 3.84
+  },
+  {
+    "text": "a boy in the image example. jpack and",
+    "start": 497.44,
+    "duration": 3.92
+  },
+  {
+    "text": "please subscribe the new image for your",
+    "start": 499.879,
+    "duration": 3.76
+  },
+  {
+    "text": "voice so give an example like this um",
+    "start": 501.36,
+    "duration": 4.399
+  },
+  {
+    "text": "today we have ai agents who can kind of",
+    "start": 503.639,
+    "duration": 4.12
+  },
+  {
+    "text": "decide first thing I need to do is",
+    "start": 505.759,
+    "duration": 4.201
+  },
+  {
+    "text": "determine the post of the boy",
+    "start": 507.759,
+    "duration": 4.361
+  },
+  {
+    "text": "um then you know find the right model",
+    "start": 509.96,
+    "duration": 4.84
+  },
+  {
+    "text": "maybe on hugging face to extract the",
+    "start": 512.12,
+    "duration": 5.479
+  },
+  {
+    "text": "post then next need to find a post image",
+    "start": 514.8,
+    "duration": 5.599
+  },
+  {
+    "text": "model to synthesize a picture of a of a",
+    "start": 517.599,
+    "duration": 5.44
+  },
+  {
+    "text": "girl of as following the instructions",
+    "start": 520.399,
+    "duration": 5.641
+  },
+  {
+    "text": "then use image to text to and then",
+    "start": 523.039,
+    "duration": 5.001
+  },
+  {
+    "text": "finally use text of speech and today we",
+    "start": 526.04,
+    "duration": 4.0
+  },
+  {
+    "text": "actually have agents that I don't want",
+    "start": 528.04,
+    "duration": 4.68
+  },
+  {
+    "text": "to say they work reliably you know",
+    "start": 530.04,
+    "duration": 5.2
+  },
+  {
+    "text": "they're kind of finicky they don't",
+    "start": 532.72,
+    "duration": 4.28
+  },
+  {
+    "text": "always work but when it works is",
+    "start": 535.24,
+    "duration": 3.839
+  },
+  {
+    "text": "actually pretty amazing but with agentic",
+    "start": 537.0,
+    "duration": 3.76
+  },
+  {
+    "text": "loops sometimes you can recover from",
+    "start": 539.079,
+    "duration": 4.081
+  },
+  {
+    "text": "earlier failures as well so I find",
+    "start": 540.76,
+    "duration": 4.56
+  },
+  {
+    "text": "myself already using research agents for",
+    "start": 543.16,
+    "duration": 4.52
+  },
+  {
+    "text": "some of my work where one of piece of",
+    "start": 545.32,
+    "duration": 3.88
+  },
+  {
+    "text": "research but I don't feel like you know",
+    "start": 547.68,
+    "duration": 3.32
+  },
+  {
+    "text": "Googling myself and spend a long time I",
+    "start": 549.2,
+    "duration": 3.84
+  },
+  {
+    "text": "should send to the research agent come",
+    "start": 551.0,
+    "duration": 3.56
+  },
+  {
+    "text": "back in a few minutes and see what it's",
+    "start": 553.04,
+    "duration": 3.479
+  },
+  {
+    "text": "come up with and and it sometimes works",
+    "start": 554.56,
+    "duration": 3.12
+  },
+  {
+    "text": "sometimes doesn't right but that's",
+    "start": 556.519,
+    "duration": 3.601
+  },
+  {
+    "text": "already a part of my personal",
+    "start": 557.68,
+    "duration": 5.08
+  },
+  {
+    "text": "workflow the final design pattern multi-",
+    "start": 560.12,
+    "duration": 4.44
+  },
+  {
+    "text": "Asian collaboration this is one of those",
+    "start": 562.76,
+    "duration": 5.319
+  },
+  {
+    "text": "funny things but uh um it works much",
+    "start": 564.56,
+    "duration": 5.32
+  },
+  { "text": "better than you might think", "start": 568.079, "duration": 5.0 },
+  {
+    "text": "uh uh but on the left is a screenshot",
+    "start": 569.88,
+    "duration": 6.959
+  },
+  {
+    "text": "from a paper called um chat Dev uh which",
+    "start": 573.079,
+    "duration": 5.841
+  },
+  {
+    "text": "is completely open which actually open",
+    "start": 576.839,
+    "duration": 4.201
+  },
+  {
+    "text": "source many of you saw the you know",
+    "start": 578.92,
+    "duration": 4.12
+  },
+  {
+    "text": "flashy social media announcements of",
+    "start": 581.04,
+    "duration": 5.52
+  },
+  {
+    "text": "demo of a Devon uh uh Chad Dev is open",
+    "start": 583.04,
+    "duration": 6.2
+  },
+  {
+    "text": "source it runs on my laptop and what",
+    "start": 586.56,
+    "duration": 4.519
+  },
+  {
+    "text": "Chad Dev doeses is example of a",
+    "start": 589.24,
+    "duration": 5.159
+  },
+  {
+    "text": "multi-agent system where you prompt one",
+    "start": 591.079,
+    "duration": 6.44
+  },
+  {
+    "text": "LM to sometimes act like the CEO of a",
+    "start": 594.399,
+    "duration": 5.0
+  },
+  {
+    "text": "software engine company sometimes Act",
+    "start": 597.519,
+    "duration": 3.56
+  },
+  {
+    "text": "designer sometime a product manager",
+    "start": 599.399,
+    "duration": 4.241
+  },
+  {
+    "text": "sometimes I a tester and this flock of",
+    "start": 601.079,
+    "duration": 4.721
+  },
+  {
+    "text": "agents that you built by prompting an LM",
+    "start": 603.64,
+    "duration": 4.56
+  },
+  {
+    "text": "to tell them you're now Co you're now",
+    "start": 605.8,
+    "duration": 4.479
+  },
+  {
+    "text": "software engineer they collaborate have",
+    "start": 608.2,
+    "duration": 4.72
+  },
+  {
+    "text": "an extended conversation so that if you",
+    "start": 610.279,
+    "duration": 5.361
+  },
+  {
+    "text": "tell it please develop a game develop a",
+    "start": 612.92,
+    "duration": 5.44
+  },
+  {
+    "text": "GOI game they'll actually spend you know",
+    "start": 615.64,
+    "duration": 5.4
+  },
+  {
+    "text": "a few minutes writing code testing it uh",
+    "start": 618.36,
+    "duration": 5.12
+  },
+  {
+    "text": "iterating and then generate a like",
+    "start": 621.04,
+    "duration": 4.68
+  },
+  {
+    "text": "surprisingly complex programs doesn't",
+    "start": 623.48,
+    "duration": 4.08
+  },
+  {
+    "text": "always work I've used it sometimes it",
+    "start": 625.72,
+    "duration": 3.96
+  },
+  {
+    "text": "doesn't work sometimes it's amazing but",
+    "start": 627.56,
+    "duration": 4.56
+  },
+  {
+    "text": "this technology is really um getting",
+    "start": 629.68,
+    "duration": 4.719
+  },
+  {
+    "text": "better and and just one of design",
+    "start": 632.12,
+    "duration": 4.519
+  },
+  {
+    "text": "pattern it turns out that multi-agent",
+    "start": 634.399,
+    "duration": 3.961
+  },
+  {
+    "text": "debate where you have different agents",
+    "start": 636.639,
+    "duration": 3.401
+  },
+  {
+    "text": "you know for example could be have ch",
+    "start": 638.36,
+    "duration": 4.599
+  },
+  {
+    "text": "GPT and Gemini debate each other that",
+    "start": 640.04,
+    "duration": 5.799
+  },
+  {
+    "text": "actually results in better performance",
+    "start": 642.959,
+    "duration": 5.44
+  },
+  {
+    "text": "as well so having multiple simulated air",
+    "start": 645.839,
+    "duration": 4.721
+  },
+  {
+    "text": "agents work together has been a powerful",
+    "start": 648.399,
+    "duration": 5.44
+  },
+  {
+    "text": "design pattern as well um so just to",
+    "start": 650.56,
+    "duration": 4.959
+  },
+  {
+    "text": "summarize I think these are the these",
+    "start": 653.839,
+    "duration": 4.961
+  },
+  {
+    "text": "are the the the uh patterns of seen and",
+    "start": 655.519,
+    "duration": 6.241
+  },
+  {
+    "text": "I think that if we were to um use these",
+    "start": 658.8,
+    "duration": 5.44
+  },
+  {
+    "text": "uh uh patterns you know in our work a",
+    "start": 661.76,
+    "duration": 5.199
+  },
+  {
+    "text": "lot of us can get a prity boost quite",
+    "start": 664.24,
+    "duration": 5.399
+  },
+  {
+    "text": "quickly and I think that um agentic",
+    "start": 666.959,
+    "duration": 5.161
+  },
+  {
+    "text": "reasoning design patterns are going to",
+    "start": 669.639,
+    "duration": 5.561
+  },
+  {
+    "text": "be important uh this is my small slide I",
+    "start": 672.12,
+    "duration": 5.08
+  },
+  {
+    "text": "expect that the set of T AI could do",
+    "start": 675.2,
+    "duration": 5.4
+  },
+  {
+    "text": "will expand dramatically this year uh",
+    "start": 677.2,
+    "duration": 6.439
+  },
+  {
+    "text": "because of agentic workflows and one",
+    "start": 680.6,
+    "duration": 4.4
+  },
+  {
+    "text": "thing that it's actually difficult",
+    "start": 683.639,
+    "duration": 3.76
+  },
+  {
+    "text": "people to get used to is when we prompt",
+    "start": 685.0,
+    "duration": 4.76
+  },
+  {
+    "text": "an LM we want to response right away",
+    "start": 687.399,
+    "duration": 4.44
+  },
+  {
+    "text": "um in fact a decade ago when I was you",
+    "start": 689.76,
+    "duration": 4.199
+  },
+  {
+    "text": "know having discussions around at at at",
+    "start": 691.839,
+    "duration": 5.041
+  },
+  {
+    "text": "Google on um it called a big box search",
+    "start": 693.959,
+    "duration": 5.721
+  },
+  {
+    "text": "we type a long prompt one of the reasons",
+    "start": 696.88,
+    "duration": 5.24
+  },
+  {
+    "text": "you know I failed to push successfully",
+    "start": 699.68,
+    "duration": 4.279
+  },
+  {
+    "text": "for that was because when you do a web",
+    "start": 702.12,
+    "duration": 3.56
+  },
+  {
+    "text": "search you one of responds back in half",
+    "start": 703.959,
+    "duration": 3.401
+  },
+  {
+    "text": "a second right that's just human nature",
+    "start": 705.68,
+    "duration": 3.44
+  },
+  {
+    "text": "we like that instant grab instant",
+    "start": 707.36,
+    "duration": 3.44
+  },
+  {
+    "text": "feedback but for a lot of the agent",
+    "start": 709.12,
+    "duration": 4.68
+  },
+  {
+    "text": "workflows um I think we'll need to learn",
+    "start": 710.8,
+    "duration": 5.24
+  },
+  {
+    "text": "to dedicate the toss and AI agent and",
+    "start": 713.8,
+    "duration": 4.8
+  },
+  {
+    "text": "patiently wait minutes maybe even hours",
+    "start": 716.04,
+    "duration": 5.08
+  },
+  {
+    "text": "uh to for a response but just like I've",
+    "start": 718.6,
+    "duration": 5.2
+  },
+  {
+    "text": "seen a lot of novice managers delegate",
+    "start": 721.12,
+    "duration": 4.48
+  },
+  {
+    "text": "something to someone and then check in 5",
+    "start": 723.8,
+    "duration": 3.4
+  },
+  {
+    "text": "minutes later right and that's not",
+    "start": 725.6,
+    "duration": 4.72
+  },
+  {
+    "text": "productive um I think we need to it be",
+    "start": 727.2,
+    "duration": 4.24
+  },
+  {
+    "text": "difficult we need to do that with some",
+    "start": 730.32,
+    "duration": 4.0
+  },
+  {
+    "text": "of our AI agents as well I saw I heard",
+    "start": 731.44,
+    "duration": 5.68
+  },
+  {
+    "text": "some loss um and then one other",
+    "start": 734.32,
+    "duration": 4.639
+  },
+  {
+    "text": "important Trend fast token generation is",
+    "start": 737.12,
+    "duration": 4.079
+  },
+  {
+    "text": "important because with these agented",
+    "start": 738.959,
+    "duration": 4.32
+  },
+  {
+    "text": "workflows we're iterating over and over",
+    "start": 741.199,
+    "duration": 3.88
+  },
+  {
+    "text": "so the LM is generating tokens for the",
+    "start": 743.279,
+    "duration": 3.56
+  },
+  {
+    "text": "elm to read so be able to generate",
+    "start": 745.079,
+    "duration": 4.12
+  },
+  {
+    "text": "tokens way faster than any human to read",
+    "start": 746.839,
+    "duration": 5.081
+  },
+  {
+    "text": "is fantastic and I think that um",
+    "start": 749.199,
+    "duration": 4.76
+  },
+  {
+    "text": "generating more tokens really quickly",
+    "start": 751.92,
+    "duration": 4.76
+  },
+  {
+    "text": "from even a slightly lower quality LM",
+    "start": 753.959,
+    "duration": 5.361
+  },
+  {
+    "text": "might give good results compared to",
+    "start": 756.68,
+    "duration": 5.04
+  },
+  {
+    "text": "slower tokens from a better LM maybe",
+    "start": 759.32,
+    "duration": 3.92
+  },
+  {
+    "text": "it's a little bit controversial because",
+    "start": 761.72,
+    "duration": 3.2
+  },
+  {
+    "text": "it may let you go around this Loop a lot",
+    "start": 763.24,
+    "duration": 3.159
+  },
+  {
+    "text": "more times kind of like the results I",
+    "start": 764.92,
+    "duration": 3.76
+  },
+  {
+    "text": "showed with gbd3 and an agent",
+    "start": 766.399,
+    "duration": 5.0
+  },
+  {
+    "text": "architecture on the first slide um and",
+    "start": 768.68,
+    "duration": 4.88
+  },
+  {
+    "text": "cand I'm really looking forward to Cloud",
+    "start": 771.399,
+    "duration": 5.56
+  },
+  {
+    "text": "5 and uh CL 4 and gb5 and Gemini 2.0 and",
+    "start": 773.56,
+    "duration": 4.8
+  },
+  {
+    "text": "all these other wonderful models that",
+    "start": 776.959,
+    "duration": 2.841
+  },
+  { "text": "may are building", "start": 778.36, "duration": 3.479 },
+  {
+    "text": "and part of me feels like if you're",
+    "start": 779.8,
+    "duration": 4.08
+  },
+  {
+    "text": "looking forward to running your thing on",
+    "start": 781.839,
+    "duration": 5.44
+  },
+  {
+    "text": "gp5 zero shot you know you mayble to get",
+    "start": 783.88,
+    "duration": 5.84
+  },
+  {
+    "text": "closer to that level performance on some",
+    "start": 787.279,
+    "duration": 4.36
+  },
+  {
+    "text": "applications than you might think with",
+    "start": 789.72,
+    "duration": 4.6
+  },
+  {
+    "text": "agenting reasoning um but on an early",
+    "start": 791.639,
+    "duration": 5.721
+  },
+  {
+    "text": "model I think I I I I think this is an",
+    "start": 794.32,
+    "duration": 7.04
+  },
+  {
+    "text": "important Trend uh uh and honestly the",
+    "start": 797.36,
+    "duration": 7.12
+  },
+  {
+    "text": "path to AGI feels like a journey rather",
+    "start": 801.36,
+    "duration": 5.159
+  },
+  {
+    "text": "than a destination but I think this typ",
+    "start": 804.48,
+    "duration": 4.68
+  },
+  {
+    "text": "of agent workflows could help us take a",
+    "start": 806.519,
+    "duration": 4.68
+  },
+  {
+    "text": "small step forward on this very long",
+    "start": 809.16,
+    "duration": 4.96
+  },
+  { "text": "journey thank", "start": 811.199, "duration": 2.921 },
+  { "text": "[Applause]", "start": 815.01, "duration": 3.139 },
+  { "text": "you", "start": 818.88, "duration": 3.0 }
+]
