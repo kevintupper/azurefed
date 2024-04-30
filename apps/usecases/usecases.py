@@ -16,16 +16,32 @@ from helpers import helper_phidata as helper_phidata
 # Menu Definition
 #***********************************************************************************************
 MENU_ITEMS = [
-    {"menu_title": "Innovate with AI", "return_value": "", "submenu": [
-        {"menu_title": "Innovate 1", "return_value": "innovate_1"},
-        {"menu_title": "Innovate 2", "return_value": "innovate_2"},
-        {"menu_title": "Innovate 3", "return_value": "innovate_3"},
+    { "menu_title": "Introduction", "return_value": "introduction", "submenu": [] },
+    { "menu_title": "Advanced AI", "return_value": "", "submenu": [
+        {"menu_title": "3 Waves of AI", "return_value": "three_waves_of_ai"},
+        {"menu_title": "Traditional AI", "return_value": "traditional_ai"},
+        {"menu_title": "Generative AI", "return_value": "generative_ai"},
     ]},
 
-    {"menu_title": "Grant Auditor Assistant", "return_value": "", "submenu": [
-        {"menu_title": "GAA - Vignette - 1", "return_value": "gaa_vignette_1"},
-        {"menu_title": "GAA - Vignette - 2", "return_value": "gaa_vignette_2"},
-        {"menu_title": "GAA - Vignette - 3", "return_value": "gaa_vignette_3"},
+    {"menu_title": "Agentic Patterns", "return_value": "", "submenu": [
+        {"menu_title": "Non-agentic Workflow", "return_value": "non_agentic_workflow"},
+        {"menu_title": "Agentic Workflow", "return_value": "agentic_workflow"},
+        {"menu_title": "Reflection", "return_value": "reflection"},
+        {"menu_title": "Tool Use", "return_value": "tool_use"},
+        {"menu_title": "Planning", "return_value": "planning"},
+        {"menu_title": "Multiagent Collaboration", "return_value": "multiagent_collaboration"},
+    ]},
+
+    {"menu_title": "Applied AI", "return_value": "", "submenu": [
+        {"menu_title": "Capabilities", "return_value": "capabilities"},
+        {"menu_title": "Use Cases", "return_value": "use_cases"},
+    ]},
+
+
+    {"menu_title": "Content Analyst", "return_value": "", "submenu": [
+        {"menu_title": "PA - Vignette - 1", "return_value": "pa_vignette_1"},
+        {"menu_title": "PA - Vignette - 2", "return_value": "pa_vignette_2"},
+        {"menu_title": "PA - Vignette - 3", "return_value": "pa_vignette_3"},
     ]},
 
     {"menu_title": "Rulemaking Assistant", "return_value": "", "submenu": [
@@ -34,7 +50,7 @@ MENU_ITEMS = [
         {"menu_title": "RA - Vignette - 3", "return_value": "ra_vignette_3"},
     ]},
 
-    {"menu_title": "Productivity Assistant", "return_value": "", "submenu": [
+    {"menu_title": "Premonition", "return_value": "", "submenu": [
         {"menu_title": "PA - Vignette - 1", "return_value": "pa_vignette_1"},
         {"menu_title": "PA - Vignette - 2", "return_value": "pa_vignette_2"},
         {"menu_title": "PA - Vignette - 3", "return_value": "pa_vignette_3"},
