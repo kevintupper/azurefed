@@ -2,6 +2,9 @@
 
 # Standard imports
 import asyncio
+import json
+import requests
+import pandas as pd
 
 # Third-party imports
 import streamlit as st
@@ -23,6 +26,11 @@ MENU_ITEMS = [
         {"menu_title": "Generative AI", "return_value": "generative_ai"},
     ]},
 
+    {"menu_title": "Applied AI", "return_value": "", "submenu": [
+        {"menu_title": "Capabilities", "return_value": "capabilities"},
+        {"menu_title": "Use Cases", "return_value": "use_cases"},
+    ]},
+
     {"menu_title": "Agentic Patterns", "return_value": "", "submenu": [
         {"menu_title": "Non-agentic Workflow", "return_value": "non_agentic_workflow"},
         {"menu_title": "Agentic Workflow", "return_value": "agentic_workflow"},
@@ -32,11 +40,8 @@ MENU_ITEMS = [
         {"menu_title": "Multiagent Collaboration", "return_value": "multiagent_collaboration"},
     ]},
 
-    {"menu_title": "Applied AI", "return_value": "", "submenu": [
-        {"menu_title": "Capabilities", "return_value": "capabilities"},
-        {"menu_title": "Use Cases", "return_value": "use_cases"},
-    ]},
 
+    {"menu_title": "Rulemaking Assistant", "return_value": "rulemaking", "submenu": [] },
 
     {"menu_title": "Content Analyst", "return_value": "", "submenu": [
         {"menu_title": "PA - Vignette - 1", "return_value": "pa_vignette_1"},
@@ -44,11 +49,6 @@ MENU_ITEMS = [
         {"menu_title": "PA - Vignette - 3", "return_value": "pa_vignette_3"},
     ]},
 
-    {"menu_title": "Rulemaking Assistant", "return_value": "", "submenu": [
-        {"menu_title": "RA - Vignette - 1", "return_value": "ra_vignette_1"},
-        {"menu_title": "RA - Vignette - 2", "return_value": "ra_vignette_2"},
-        {"menu_title": "RA - Vignette - 3", "return_value": "ra_vignette_3"},
-    ]},
 
     {"menu_title": "Premonition", "return_value": "", "submenu": [
         {"menu_title": "PA - Vignette - 1", "return_value": "pa_vignette_1"},
@@ -62,86 +62,99 @@ MENU_ITEMS = [
 # Page Functions
 #***********************************************************************************************
 
-# Innovate 1
-async def innovate_1():
+# Rulemaking Assistant
+async def rulemaking():
     # Set the page title
-    st.markdown("### Innovate 1")
-    st.markdown("This is the Innovate 1 page.")
+    st.markdown("### Rulemaking Assistant")
 
-    # Get a prompt from the user
-    prompt = st.text_input("Enter a prompt", "What is the capital of France?")
+    st.markdown("Fetch a proposed rule from regulations.gov that you would like assistance with.")
 
-    # Get an assistant.
-    assistant = helper_phidata.get_assistant()
+    agency_options = load_agencies()
 
-    # Run the assistant
-    if st.button("Run Assistant"):
-        assistant.print_response(prompt)
+    selected_agency = st.selectbox('Select Agency', options=list(agency_options.keys()))
 
-# Innovate 2
-async def innovate_2():
-    # Set the page title
-    st.markdown("### Innovate 2")
-    st.markdown("This is the Innovate 2 page.")
+    agency_id = agency_options[selected_agency]
+    docket_id = st.text_input('Docket ID (optional)')
+    keyword = st.text_input('Keyword (optional)')
+    date_posted = st.date_input('Posted Since', value=pd.to_datetime('today'))
 
-# Innovate 1
-async def innovate_3():
-    # Set the page title
-    st.markdown("### Innovate 3")
-    st.markdown("This is the Innovate 3 page.")
-
-# GAA Vignette 1
-async def gaa_vignette_1():
-    # Set the page title
-    st.markdown("### GAA Vignette 1")
-    st.markdown("This is the GAA Vignette 1 page.")
-
-# GAA Vignette 2
-async def gaa_vignette_2():
-    # Set the page title
-    st.markdown("### GAA Vignette 2")
-    st.markdown("This is the GAA Vignette 2 page.")
-
-# GAA Vignette 3
-async def gaa_vignette_3():
-    # Set the page title
-    st.markdown("### GAA Vignette 3")
-    st.markdown("This is the GAA Vignette 3 page.")
-
-# RA Vignette 1
-async def ra_vignette_1():
-    # Set the page title
-    st.markdown("### RA Vignette 1")
-    st.markdown("This is the RA Vignette 1 page.")
-
-# RA Vignette 2
-async def ra_vignette_2():
-    # Set the page title
-    st.markdown("### RA Vignette 2")
-    st.markdown("This is the RA Vignette 2 page.")
-
-# RA Vignette 3
-async def ra_vignette_3():
-    # Set the page title
-    st.markdown("### RA Vignette 3")
-    st.markdown("This is the RA Vignette 3 page.")
-
-# PA Vignette 1
-async def pa_vignette_1():
-    # Set the page title
-    st.markdown("### PA Vignette 1")
-    st.markdown("This is the PA Vignette 1 page.")
-
-# PA Vignette 2
-async def pa_vignette_2():
-    # Set the page title
-    st.markdown("### PA Vignette 2")
-    st.markdown("This is the PA Vignette 2 page.")
+    if st.button('Search'):
+        results = fetch_rules(agency_id=agency_id, docket_id=docket_id, keyword=keyword, date_posted=date_posted.strftime('%Y-%m-%d'))
+        if not results.empty:
+            st.data_editor(results)
+            st.dataframe(results)
+        else:
+            st.write("No results found.") 
     
+
 
 #***********************************************************************************************
 # Page display and styling helper functions
 #***********************************************************************************************
+# Load agency data from JSON file
+@st.cache_data
+def load_agencies():
+    with open('./data/reg_dot_gov_particpants.json', 'r') as file:
+        agencies = json.load(file)
+    return {agency['agency']: agency['agency_id'] for agency in agencies}
+
+
+def fetch_rules(agency_id, docket_id, keyword, date_posted):
+    """Fetch proposed rules from the API based on the provided filters."""
+    url = "https://api.regulations.gov/v4/documents"
+    params = {
+        "api_key": helper_phidata.REGULATIONS_GOV_API_KEY,
+        "filter[agencyId]": agency_id,
+        "filter[postedDate][ge]": date_posted,      # Date posted filter correctly formatted
+        "filter[documentType]": "Proposed Rule",    # Only fetch proposed rules
+        "sort": "-postedDate"                       # Sort by posted date in descending order
+    }
+
+    # Add optional filters
+    if docket_id:
+        params["filter[docketId]"] = docket_id
+    if keyword:
+        params["filter[searchTerm]"] = keyword
+
+    # For debugging: Print the full URL and parameters
+    print("Making API Call to:", url)
+    print("With parameters:", params)
+
+
+    response = requests.get(url, params=params)
+    if response.status_code == 200:
+        json_data = response.json()
+
+        # Select only the relevant fields from the response
+        if 'data' in json_data:
+            df = pd.json_normalize(json_data['data'])
+            df = df.rename(columns={
+                'attributes.postedDate': 'Posted Date',
+                'attributes.title': 'Title',
+                'id': 'Document ID',
+                'attributes.commentStartDate': 'Comments Start',
+                'attributes.commentEndDate': 'Comments End'
+            })
+            df['Posted Date'] = pd.to_datetime(df['Posted Date']).dt.strftime('%Y-%m-%d')
+            df['Comments Start'] = pd.to_datetime(df['Comments Start']).dt.strftime('%Y-%m-%d')
+            df['Comments End'] = pd.to_datetime(df['Comments End']).dt.strftime('%Y-%m-%d')
+
+            # Add a checkbox column for user selection
+            df.insert(0, 'Select', False)
+            return df
+        #['Select','Posted Date', 'Title', 'Document ID', 'Comments Start', 'Comments End']
+
+    else:
+        return pd.DataFrame()
+    
+def view_document_details(doc_link):
+    """Function to fetch detailed information about a document."""
+    response = requests.get(doc_link)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return {}
+
 async def initialize_app_session_state():
     """
     Initialize the session state variables for the application.
