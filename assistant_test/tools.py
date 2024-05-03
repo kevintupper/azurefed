@@ -8,45 +8,13 @@
 #****************************************************************************************************
 import os
 import json
-import html2text
 import requests
 import pandas as pd
 
 #****************************************************************************************************
 # Functions (Tools for the Chat Assistant)
 #****************************************************************************************************
-{
-  "name": "get_list_of_dockets",
-  "description": "Retrieves a list of dockets.",
-  "parameters": {
-    "type": "object",
-    "properties": {
-      "agencyId": {
-        "type": "string",
-        "description": "The agency acronym to filter results. Example: 'EPA'"
-      },
-      "searchTerm": {
-        "type": "string",
-        "description": "The term to filter results."
-      },
-      "postedDate": {
-        "type": "string",
-        "description": "The posted date to filter results. The value must be formatted as yyyy-MM-dd."
-      },
-      "beforePostedDate": {
-        "type": "string",
-        "description": "The date before which the dockets were posted. The value must be formatted as yyyy-MM-dd."
-      },
-      "afterPostedDate": {
-        "type": "string",
-        "description": "The date after which the dockets were posted. The value must be formatted as yyyy-MM-dd."
-      }
-    },
-    "required": [
-      ""
-    ]
-  }
-}
+
 
 def get_list_of_dockets(agencyId=None, searchTerm=None, postedDate=None, beforePostedDate=None, afterPostedDate=None):
     """
@@ -59,7 +27,6 @@ def get_list_of_dockets(agencyId=None, searchTerm=None, postedDate=None, beforeP
         beforePostedDate (str): The date before which the dockets were posted. The value must be formatted as yyyy-MM-dd.
         afterPostedDate (str): The date after which the dockets were posted. The value must be formatted as yyyy-MM-dd.
     """
-    """Fetch proposed rules from the API based on the provided filters."""
 
     url = "https://api.regulations.gov/v4/documents"
     params = {
@@ -112,7 +79,53 @@ def get_list_of_dockets(agencyId=None, searchTerm=None, postedDate=None, beforeP
 
 
 
+
+def get_docket_details(docketId):
+    """
+    Given a specific docucmentId (docketId) this retrieves the docket content.
+    Parameters:
+        docketId (str): The document ID of the docket to retrieve.
+    """
+    
+    url = f"https://api.regulations.gov/v4/documents/{docketId}"
+    params = {
+        "api_key": "4p2Hpwlq1SJ5kOhayfhqeI0D1RtDOo70d8azejwL"
+    }
+    # For debugging: Print the full URL and parameters
+    print("Making API Call to:", url)
+    print("With parameters:", params)
+
+    response = requests.get(url, params=params)
+    if response.status_code == 200:
+        print("API Call Successful!")
+        
+    # Load the JSON data from the API response
+    data = response.json()
+    
+    # Navigate through the JSON structure to find the file URL for the HTML format
+    file_formats = data['data']['attributes']['fileFormats']
+    html_url = None
+    for file_format in file_formats:
+        if file_format['format'] == 'htm':
+            html_url = file_format['fileUrl']
+            break
+    
+    # Check if an HTML URL was found
+    if not html_url:
+        return "No HTML document found in the response."
+
+    # Download the content of the HTML document
+    response = requests.get(html_url)
+    if response.status_code == 200:
+        return response.text
+    else:
+        return f"Failed to download the document. Status code: {response.status_code}"
+
+
+
+
 # Test
+print(get_docket_details("USPS-2016-0169-0001"))
 # print(get_available_xbrl_keys_for_filing("0000950170-23-035122"))  
 #print(gather_data_from_xbrl_in_json("0000950170-23-035122","StatementsOfIncome/EarningsPerShareDiluted"))  
 
