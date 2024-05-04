@@ -1,0 +1,3 @@
+Use your expertise and tell me what type of individuals, officials, associations, organizations, or other entities would be considered stakeholders and likely to review and or comment on the proposed rule and why.  Limit your "reason" to one or two sentences.  Review the proposed rule and return a Json object in the following format:
+
+{ "potential_stakeholders": [ {"stakeholder":"<name of stakeholder>", {"reason":"<reason considered a stakeholder>"}, . . .]}

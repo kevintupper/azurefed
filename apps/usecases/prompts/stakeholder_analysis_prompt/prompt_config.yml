@@ -1,0 +1,14 @@
+# Package template
+# Use environment variables for anything you do not want exposed.
+azure_endpoint: "$AZURE_OPENAI_ENDPOINT"    # Endpoint to call for the prompt
+api_key: "$AZURE_OPENAI_API_KEY"            # Use environment variable reference
+api_version: "$AZURE_OPENAI_API_VERSION"                               
+model: "$AZURE_OPENAI_DEPLOYMENT"
+temperature: 0.95
+max_tokens: 800
+top_p: 0.5
+frequency_penalty: 0
+presence_penalty: 0
+stop: null
+stream: false
+logging_enabled: false

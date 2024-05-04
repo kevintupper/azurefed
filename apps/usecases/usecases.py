@@ -15,6 +15,7 @@ import streamlit as st
 from helpers import helper_auth as authentication
 from helpers import helper_utils as utils
 from helpers import helper_phidata as helper_phidata
+from promptify.prompt_service import get_response
 
 #***********************************************************************************************
 # Menu Definition
@@ -42,7 +43,9 @@ MENU_ITEMS = [
     ]},
 
 
-    {"menu_title": "Rulemaking Assistant", "return_value": "rulemaking", "submenu": [] },
+    {"menu_title": "Rulemaking Assistant", "return_value": "rulemaking", "submenu": [
+        {"menu_title":"Stakeholder Analyst Agent", "return_value":"stakeholder_agent" },
+    ]},
 
     {"menu_title": "Content Analyst", "return_value": "", "submenu": [
         {"menu_title": "PA - Vignette - 1", "return_value": "pa_vignette_1"},
@@ -63,18 +66,15 @@ MENU_ITEMS = [
 # Page Functions
 #***********************************************************************************************
 
-# Rulemaking Assistant
-async def rulemaking():
+# Stakeholder Analyst Agent
+async def stakeholder_agent():
 
     # Set the page title and description
-    st.markdown("### Stakeholder Analyst Assistant")
+    st.markdown("### Stakeholder Agent")
     st.markdown("Analyze a proposed rule from regulations.gov for stakeholder concerns and objections.")
 
     # Display the input fields for the user to enter the docket ID
     docket_id = st.text_input('Docket ID')
-
-    # Initialize the analysis_running flag
-    analysis_running = False
     
     # Check if the user has clicked the "Conduct Analysis" button
     if st.button('Conduct Analysis'):
@@ -82,7 +82,7 @@ async def rulemaking():
         if docket_id:
 
             # Set status to "Analyzing the proposed rule..."
-            status = st.status("Analyzing the proposed rule...")
+            status = st.status(label="Analyzing the proposed rule...",expanded=True)
 
             # Display rule and analysis results
             tabRule, tabAnalysis, tabSuggestions = st.tabs(["Proposed Rule", "Stakeholder Analysis", "Overall Suggestions"])
@@ -97,22 +97,44 @@ async def rulemaking():
                     st.html(docket_content)
 
                 with tabAnalysis:
-                    status.write(f"Reviewing rule and determining stakeholders...")
+                    
+                    # Call get_response with the docket content to get the subject matter expert prompt
+                    status.update(label="Reviewing rule to determine agent expertise needed . . .", state="running")
+                    output = get_response("sme_prompt", [], [docket_content])
+                    data = json.loads(output.choices[0].message.content.strip('`json \n'))
+                    rule_topic = data['rule_topic']
+                    status.markdown("**Stakeholder Agent Subject Matter Expertise**")
+                    status.write(f"{rule_topic}")
 
+                    # Now get the list of stakeholders
+                    status.update(label="Getting stakeholders who may be interested in this rule . . .", state="running")
+                    output = get_response("get_stakeholders_prompt", [rule_topic,docket_content], [])
+                    data = json.loads(output.choices[0].message.content.strip('`json \n'))
+                    status.markdown("**Stakeholders**")
+                    stakeholders = data['potential_stakeholders']
+                    for stakeholder in stakeholders:
+                        status.markdown(f"- **{stakeholder['stakeholder']}**: {stakeholder['reason']}")
 
+                    # Begin drafting the analysis
+                    tabAnalysis.markdown("## Draft Stakeholder Analysis for Docket ID: " + docket_id)  
+                    tabAnalysis.markdown("Prepared by the Stakeholder Agent (an AI) on: " + time.strftime("%Y-%m-%d @ %H:%M"))
+                     
+                    tabAnalysis.markdown(f"### Introduction")
+                    tabAnalysis.markdown(f"**Purpose**: The purpose of this analysis is to identify and address the concerns and objections of stakeholders who may be impacted by the proposed rule with docket ID: {docket_id}.")
 
+                    # Now iterate over each stakeholder and analyze their concerns
+                    tabAnalysis.markdown(f"### Stakeholder Analysis")
+                    for stakeholder in stakeholders:
+                        status.update(label=f"Analyzing rule for stakeholder: {stakeholder['stakeholder']} ...", state="running")
+                        
+                        tabAnalysis.markdown(f"#### {stakeholder['stakeholder']}")
+                        tabAnalysis.markdown(f"**Interest**: {stakeholder['reason']}")
 
-                    st.write("Stakeholder Analysis Results")
-
-
-                # Simulate analysis running
-                i = 1
-                while i <= 6:
-                    # Your analysis code here...
-                    time.sleep(2)  # Simulating analysis process
-                    i += 1
-                    status.update(label=f"Analyzing rule for stakeholder: {i} ...", state="running")
-
+                        output = get_response("stakeholder_analysis_prompt", [stakeholder['stakeholder'],docket_content], [stakeholder['stakeholder'],stakeholder['reason']])
+                        data = json.loads(output.choices[0].message.content.strip('`json \n'))
+                        tabAnalysis.markdown(f"**Likely opinion**: {data['likely_opinion']}")
+                        tabAnalysis.markdown(f"**Concerns or Objections**: {data['concerns_or_objections']}")    
+                        tabAnalysis.markdown(f"**Potential Rule Improvements**: {data['improvements']}")                    
 
                 with tabSuggestions:
                     st.write("Overall Suggestions") 

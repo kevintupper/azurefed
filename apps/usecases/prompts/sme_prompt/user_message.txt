@@ -1,0 +1,5 @@
+Below is a proposed rule.  Return a JSON document regarding the rule in the following format {"rule_topic":"<topic>"}.   
+
+Proposed rule:
+
+{1}

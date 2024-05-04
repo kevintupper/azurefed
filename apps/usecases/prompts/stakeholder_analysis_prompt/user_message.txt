@@ -1,0 +1,10 @@
+Likely respondent: {1}
+Reason they are likely to respond: {2}
+
+Consider the likely respondent and reason they are likely to respond. Then use your expertise on this rule and return your analysis in Json format as follows:  
+
+{  
+"likely_opinion":"<favorable, neutral, unfavorable>",  
+"concerns_or_objections":"<concerns or objections to the proposed rule>",  
+"improvements":"<ideas that you the expert have to still meet the objective of the rule, yet improve it to either mitigate the concerns or objections, or ensure the respondent that you have taken them into consideration when drafting the rule.>"
+}
