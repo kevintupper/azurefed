@@ -5,6 +5,7 @@ import asyncio
 import json
 import requests
 import pandas as pd
+import time
 
 # Third-party imports
 import streamlit as st
@@ -64,27 +65,75 @@ MENU_ITEMS = [
 
 # Rulemaking Assistant
 async def rulemaking():
-    # Set the page title
-    st.markdown("### Rulemaking Assistant")
 
-    st.markdown("Fetch a proposed rule from regulations.gov that you would like assistance with.")
+    # Set the page title and description
+    st.markdown("### Stakeholder Analyst Assistant")
+    st.markdown("Analyze a proposed rule from regulations.gov for stakeholder concerns and objections.")
 
-    agency_options = load_agencies()
+    # Display the input fields for the user to enter the docket ID
+    docket_id = st.text_input('Docket ID')
 
-    selected_agency = st.selectbox('Select Agency', options=list(agency_options.keys()))
+    # Initialize the analysis_running flag
+    analysis_running = False
+    
+    # Check if the user has clicked the "Conduct Analysis" button
+    if st.button('Conduct Analysis'):
 
-    agency_id = agency_options[selected_agency]
-    docket_id = st.text_input('Docket ID (optional)')
-    keyword = st.text_input('Keyword (optional)')
-    date_posted = st.date_input('Posted Since', value=pd.to_datetime('today'))
+        if docket_id:
 
-    if st.button('Search'):
-        results = fetch_rules(agency_id=agency_id, docket_id=docket_id, keyword=keyword, date_posted=date_posted.strftime('%Y-%m-%d'))
-        if not results.empty:
-            st.data_editor(results)
-            st.dataframe(results)
-        else:
-            st.write("No results found.") 
+            # Set status to "Analyzing the proposed rule..."
+            status = st.status("Analyzing the proposed rule...")
+
+            # Display rule and analysis results
+            tabRule, tabAnalysis, tabSuggestions = st.tabs(["Proposed Rule", "Stakeholder Analysis", "Overall Suggestions"])
+
+            # Fetch the docket details from the API 
+            status.write(f"Fetching {docket_id} from regulations.gov...")
+            docket_content = get_docket_details(docket_id)
+
+            # Display and analyze the docket content if available
+            if docket_content:
+                with tabRule:
+                    st.html(docket_content)
+
+                with tabAnalysis:
+                    status.write(f"Reviewing rule and determining stakeholders...")
+
+
+
+
+                    st.write("Stakeholder Analysis Results")
+
+
+                # Simulate analysis running
+                i = 1
+                while i <= 6:
+                    # Your analysis code here...
+                    time.sleep(2)  # Simulating analysis process
+                    i += 1
+                    status.update(label=f"Analyzing rule for stakeholder: {i} ...", state="running")
+
+
+                with tabSuggestions:
+                    st.write("Overall Suggestions") 
+                    status.update(label=f"Analysis complete.", state="complete")
+    
+    # agency_options = load_agencies()
+
+    # selected_agency = st.selectbox('Select Agency', options=list(agency_options.keys()))
+
+    # agency_id = agency_options[selected_agency]
+    # docket_id = st.text_input('Docket ID (optional)')
+    # keyword = st.text_input('Keyword (optional)')
+    # date_posted = st.date_input('Posted Since', value=pd.to_datetime('today'))
+
+    # if st.button('Search'):
+    #     results = fetch_rules(agency_id=agency_id, docket_id=docket_id, keyword=keyword, date_posted=date_posted.strftime('%Y-%m-%d'))
+    #     if not results.empty:
+    #         st.data_editor(results)
+    #         st.dataframe(results)
+    #     else:
+    #         st.write("No results found.") 
     
 
 
@@ -94,6 +143,7 @@ async def rulemaking():
 # Load agency data from JSON file
 @st.cache_data
 def load_agencies():
+    """Load agency data from a JSON file and return a dictionary of agency names and IDs."""
     with open('./data/reg_dot_gov_particpants.json', 'r') as file:
         agencies = json.load(file)
     return {agency['agency']: agency['agency_id'] for agency in agencies}
@@ -147,13 +197,49 @@ def fetch_rules(agency_id, docket_id, keyword, date_posted):
     else:
         return pd.DataFrame()
     
-def view_document_details(doc_link):
-    """Function to fetch detailed information about a document."""
-    response = requests.get(doc_link)
+
+def get_docket_details(docketId):
+    """
+    Given a specific docucmentId (docketId) this retrieves the docket content.
+    Parameters:
+        docketId (str): The document ID of the docket to retrieve.
+    """
+    
+    url = f"https://api.regulations.gov/v4/documents/{docketId}"
+    params = {
+        "api_key": "4p2Hpwlq1SJ5kOhayfhqeI0D1RtDOo70d8azejwL"
+    }
+    # For debugging: Print the full URL and parameters
+    print("Making API Call to:", url)
+    print("With parameters:", params)
+
+    response = requests.get(url, params=params)
     if response.status_code == 200:
-        return response.json()
+        print("API Call Successful!")
+        
+    # Load the JSON data from the API response
+    data = response.json()
+    
+    # Navigate through the JSON structure to find the file URL for the HTML format
+    file_formats = data['data']['attributes']['fileFormats']
+    html_url = None
+    for file_format in file_formats:
+        if file_format['format'] == 'htm':
+            html_url = file_format['fileUrl']
+            break
+    
+    # Check if an HTML URL was found
+    if not html_url:
+        return "No HTML document found in the response."
+
+    # Download the content of the HTML document
+    response = requests.get(html_url)
+    if response.status_code == 200:
+        return response.text
     else:
-        return {}
+        print (f"Failed to download the document. Status code: {response.status_code}")
+        return None
+    
 
 async def initialize_app_session_state():
     """

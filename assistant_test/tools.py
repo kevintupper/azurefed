@@ -119,12 +119,14 @@ def get_docket_details(docketId):
     if response.status_code == 200:
         return response.text
     else:
-        return f"Failed to download the document. Status code: {response.status_code}"
+        print (f"Failed to download the document. Status code: {response.status_code}")
+        return None
 
 
 
 
 # Test
+# DOS-2024-0013-0001
 print(get_docket_details("USPS-2016-0169-0001"))
 # print(get_available_xbrl_keys_for_filing("0000950170-23-035122"))  
 #print(gather_data_from_xbrl_in_json("0000950170-23-035122","StatementsOfIncome/EarningsPerShareDiluted"))  
