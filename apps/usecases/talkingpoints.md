@@ -16,4 +16,9 @@ LLMs have been trained on these words and understand how they relate to each oth
 It is the way we communicate with each other. It is the way we express our ideas, our feelings, our beliefs, our hopes, our dreams. It is the way we share our knowledge, our wisdom, our experiences, our stories. It is the way we connect with each other, the way we build relationships, the way we create communities.
 I beleive our words are an extension of our thoughts. They are the way we communicate with each other. They are the way we express our ideas, our feelings, our beliefs, our hopes, our dreams. They are the way we share our knowledge, our wisdom, our experiences, our stories. They are the way we connect with each other, the way we build relationships, the way we create communities.
 
-If
+
+
+===
+
+I could have an human interaction at any point along the entire workflow to review and approve or modify the output of the AI, I would be able to ensure that the AI is generating content that is accurate, relevant, and appropriate for the intended objective.
+

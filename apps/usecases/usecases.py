@@ -78,7 +78,7 @@ async def regulatory_insight_analyst():
             status = st.status(label="Conducting analsysis.", state="running")
 
             # Display rule and analysis results
-            tabRule, tabPreprocessing, tabOutline, tabFirstDraft = st.tabs(["Proposed Rule", "Preprocessing", "Analysis Outline", "First Draft"])
+            tabRule, tabInitialReview, tabOutline, tabNotesForExperts, tabExpertQs, tabExpertAs, tabFirstDraft, tabFinalAnalysis = st.tabs(["Proposed Rule", "Initial Review", "Analysis Outline", "Notes for Experts", "Expert Q's", "Expert A's", "First Draft", "Final Analysis"])
 
             # Fetch the docket details from the API 
             status.update(label="Fetching proposed rule from regulations.gov.", state="running")
@@ -97,126 +97,206 @@ async def regulatory_insight_analyst():
                     status.write(f"Successfully retrieveed {docket_id} from regulations.gov and posted to 'Proposed Rule' tab.")
 
 
-
                 #***********************************************************************************************
-                # Preprocessing of the docket content
-                status.update(label=f"Preprocessing the content of {docket_id} for in depth analysis.", state="running")
-                with tabPreprocessing:
+                # Initial review of the proposed rule
+                status.update(label=f"AI Analyst is conducting an initial review of {docket_id}.", state="running")
+                with tabInitialReview:
 
                     # Call the AI agent to draft the outline
-                    response = get_response("preprocessor", [], [docket_content])
-                    preprocessor_json_str = clean_json_from_markdown(response.choices[0].message.content)
-                    preprocessor = json.loads(preprocessor_json_str)
+                    response = get_response("initial_review", [], [docket_content])
+                    initial_reivew_str = clean_json_from_markdown(response.choices[0].message.content)
+                    initial_review = json.loads(initial_reivew_str)
 
                     # Create a placeholder for the object in case we update it throughout the process
-                    preprocessor_placeholder = st.empty()
-                    preprocessor_placeholder.json(preprocessor_json_str)
+                    initial_review_placeholder = st.empty()
+                    initial_review_placeholder.json(initial_review)
 
                     # Update status log
-                    status.write(f"AI agent preprocessed the content and posted it to the'Preprocessing' tab.")
-
+                    status.write(f"AI Analyst conduted an initial review of the proposed rule and posted the results to the 'Initial Review' tab.")
 
 
                 #***********************************************************************************************
                 # Outline of the analysis
-                status.update(label=f"AI agent is drafting an outline for the analysis of {docket_id}.", state="running")
+                status.update(label=f"AI Analyst is drafting an outline for the analysis of {docket_id}.", state="running")
                 with tabOutline:
 
                     # Call the AI agent to draft the outline
-                    response = get_response("outliner", [], [docket_content, preprocessor_json_str])
+                    response = get_response("outliner", [], [docket_content, initial_reivew_str])
                     analysis_outline_json_str = clean_json_from_markdown(response.choices[0].message.content)
                     analysis_outline = json.loads(analysis_outline_json_str)
 
                     # Create a placeholder for the outline since we will be updating it throughout the process
-                    outline_placeholder = st.empty()
-                    outline_placeholder.json(analysis_outline_json_str)
+                    analysis_outline_placeholder = st.empty()
+                    analysis_outline_placeholder.json(analysis_outline)
 
                     # Update status log
-                    status.write(f"AI agent drafted the outline and posted it on 'Analysis Outline' tab.")
-
-
-
-                #***********************************************************************************************
-                # Write the first draft based on the outline
-                status.update(label=f"Writing the first draft based on the draft outline for analysis of {docket_id}.", state="running")
-                with tabFirstDraft:
-                    first_draft = create_markdown_draft(analysis_outline)
-                    st.markdown(first_draft)
-
-                    # Update status log
-                    status.write(f"First draft posted on the 'First Draft' tab.")
-
-
+                    status.write(f"AI Analyst drafted the outline and posted it on 'Analysis Outline' tab.")
 
 
                 #***********************************************************************************************
                 # Generate notes for experts to conduct analysis
-                status.update(label=f"Generating notes for experts to conduct analysis of {docket_id}.", state="running")
+                status.update(label=f"AI Analyst is generating notes for experts to conduct analysis of {docket_id}.", state="running")
+                with tabNotesForExperts:
 
-                # Let the experts ask what notes they need from the rule
-                add_expert_notes_from_rule_to_outline(docket_content, analysis_outline)
-                outline_placeholder.json(analysis_outline)
+                    # Create a placeholder for the analysis outline with research since we will be updating it throughout the process
+                    notes_for_experts_placeholder = st.empty()
+                    notes_for_experts_placeholder.json(analysis_outline)
+                    
+                    # Have a researcher generate notes for the experts in the form of Q&A pairs.
+                    # We add these notes to the analysis_outline object for the experts to reference.
+                    for section in analysis_outline['sections']:
+                        for expert in section['consult_experts']:
 
-                # Update status log
-                status.write(f"Notes for experts to conduct analysis of {docket_id} have been generated.")
+                            status.update(label=f"AI Analyst is generating notes for the {expert['expert_type']} expert to conduct analysis of {docket_id}.", state="running")
+                            
+                            response = get_response("expert_notes_from_rule", 
+                                                    [docket_content],
+                                                    [expert['expert_type'], expert['specialized_knowledge'], expert['reason_for_request'], section['title'],  section['description']])
+                            response_str = response.choices[0].message.content
+                            response_json_str = clean_json_from_markdown(response_str)
+                            data = json.loads(response_json_str)
+                            expert['notes_from_rule'] = data
+                            
+                            # Show intermediate results in the UI
+                            notes_for_experts_placeholder.json(analysis_outline)
+
+                    # Update status log
+                    status.write(f"AI Analyst added notes for experts to conduct analysis of {docket_id} and posted the resuts on the 'Notes for Experts' tab.")
 
 
                 #***********************************************************************************************
                 # Let the experts define a list of questions to answer for their research
-                status.update(label=f"Experts are generating questions to conduct their research.", state="running")
+                status.update(label=f"AI Experts are planning their research.", state="running")
+                with tabExpertQs:
 
-                # Let the experts ask what notes they need from the rule
-                add_expert_questions_to_research_to_outline(docket_content, analysis_outline)
-                outline_placeholder.json(analysis_outline)
+                    # Create a placeholder for the research since we will be updating it throughout the process
+                    expert_qs_placeholder = st.empty()
+                    expert_qs_placeholder.json(analysis_outline)
+                    
+                    # Convert current version of analysis outline (with all the notes) to JSON string for promptify
+                    current_outline_and_notes = json.dumps(analysis_outline)
 
-                # Update status log
-                status.write(f"Questions for experts to conduct research have been generated.")
+                    # Iterate through the sections and experts in the official analysis_outline to get questions to research
+                    for section in analysis_outline['sections']:
+                        for expert in section['consult_experts']:
+
+                            status.update(label=f"AI {expert['expert_type']} expert is planning their research.", state="running")
+
+                            # Generate the questions the expert wants answered as a result of their research
+                            response = get_response("expert_questions_to_research", 
+                                                    [expert['expert_type'], expert['specialized_knowledge']],
+                                                    [docket_content, current_outline_and_notes, expert['expert_type'], expert['specialized_knowledge'], section['title'], section['description']])
+                            response_str = response.choices[0].message.content
+                            response_json_str = clean_json_from_markdown(response_str)
+                            data = json.loads(response_json_str)
+                            expert['questions_to_research'] = data
+                            
+                            # Show intermediate results in the UI
+                            expert_qs_placeholder.json(analysis_outline)
+  
+                    # Update status log
+                    status.write(f"AI Experts generated the questions they want answered as a result of their research. Results have been posted to the 'Expert Q's' tab.")
 
 
                 #***********************************************************************************************
                 # Let the experts answer the questions 
                 # Note: Here we could actually do SERP research or link to other APIs for researching the answers. 
                 #       For now we'll rely on the LLM to generate the answers. This risks hallucinating the answers, but it's a demo.
-                status.update(label=f"Experts are researching the questions and providing responses.", state="running")
+                status.update(label=f"AI Experts are researching the questions and providing responses.", state="running")
+                with tabExpertAs:
 
-                # Let the experts ask what notes they need from the rule
-                add_expert_answers_to_questions_to_outline(docket_content, analysis_outline)
-                outline_placeholder.json(analysis_outline)
+                    # Create a placeholder for the research since we will be updating it throughout the process
+                    expert_as_placeholder = st.empty()
+                    expert_as_placeholder.json(analysis_outline)
 
-                # Update status log
-                status.write(f"Answers to research questions have been generated.")
+                    # Iterate through the sections and experts and questions in the official analysis_outline and generate research (answers)
+                    for section in analysis_outline['sections']:
+                        for expert in section['consult_experts']:
 
+                            # Check if there are questions to research for the expert
+                            if "questions_to_research" in expert:
+                                # Iterate over each question to research
+                                for question_reason_pair in expert['questions_to_research']:
+
+                                    status.update(label=f"AI {expert['expert_type']} expert is researching the questions and providing responses.", state="running")
+
+                                    response = get_response("expert_answers", 
+                                                            [expert['expert_type'], expert['specialized_knowledge'],section['description']],
+                                                            [docket_content, question_reason_pair['question'], question_reason_pair['reason']])
+
+                                    response_str = response.choices[0].message.content
+                                    question_reason_pair['answer'] = response_str
+                            
+                                    # Show intermediate results in the UI
+                                    expert_as_placeholder.json(analysis_outline)
+  
+                    # Update status log
+                    status.write(f"AI Experts have researched and answered their questions. Results have been posted to the 'Expert A's' tab.")
 
 
                 #***********************************************************************************************
                 # Write the first draft
-                status.update(label=f"Writing each section of the first draft.", state="running")
+                status.update(label=f"AI Analyst is writing the first draft for each section based on expert research.", state="running")
+                with tabFirstDraft:
 
-                # Let the experts ask what notes they need from the rule
-                write_draft_for_section(docket_content, analysis_outline, analysis_outline_json_str)
-                outline_placeholder.json(analysis_outline)
+                    # Create a placeholder for the research since we will be updating it throughout the process
+                    first_draft_placeholder = st.empty()
+                    first_draft_placeholder.json(analysis_outline)
+                    
+                    # Iterate through the sections to write teh draft.
+                    # Note: This takes the original analysis outline JSON string as input.
+                    #       This is to maintain the structure without all of the expert notes for every expert in every section.
+                    #       The only section in full sent to the prompt is the one being written.
+                    for section in analysis_outline['sections']:
+                            
+                        status.update(label=f"AI Analyst is writing section '{section['Title']}' based on expert research.", state="running")
 
-                # Update status log
-                status.write(f"First draft complete.")
+                        # Convert section to JSON string for promptify
+                        section_json_str = json.dumps(section)
 
+                        # Generate the first draft for the section
+                        response = get_response("draft_writer", 
+                                                [],
+                                                [docket_content, analysis_outline_json_str, section['title'],  section['description'], section_json_str])
+                                        
+                        response_str = response.choices[0].message.content
+                        section['first_draft'] = response_str
+                        
+                        # Show intermediate results in the UI
+                        first_draft_placeholder.json(analysis_outline)
+  
+                    # Update status log
+                    status.write(f"AI Analyst has written the first draft for each section. Results have been posted to the 'First Draft' tab.")
 
                 # Write to disk in case we need to reference it later
                 with open(f"./data/first_draft_{docket_id}.json", "w") as file:
                     json.dump(analysis_outline, file)
 
 
+                #***********************************************************************************************
+                # Write the final analysis based on the outline
+                # Note: For now we are jus outputing the first draft for each section as the final analysis.
+                #       A real implementation would review, edit, and refine the first draft.
+                status.update(label=f"Writing the final analysis based on the first draft analysis of {docket_id}.", state="running")
+                with tabFinalAnalysis:
+                    final_anlysis = create_markdown_draft(analysis_outline)
+                    st.markdown(final_anlysis)
+
+                    # Update status log
+                    status.write(f"Final analysis written and posted on the 'Final Analysis' tab.")
+
+                # Update the status, we are done.
+                status.update(label=f"Analysis complete. The report is posted on the 'Final Analysis' tab", state="complete")
 
 
+
+### FUTURE STUFF AND ALSO DOCKET FINDER
                 # Modify the analysis outline to inlude placeholders for expert search terms.
 #                add_search_terms_to_outline(docket_content_summary, analysis_outline)
 
                 # Rewrite the analysis outline with expert search terms
 #                outline_placeholder.json(analysis_outline)
 
-
-
-                # Update the status, we are done.
-                status.update(label=f"Analysis complete.", state="complete")
 
 
                 #     # Call get_response with the docket content to get the subject matter expert prompt
@@ -480,13 +560,11 @@ def process_document(document):
     for section in document['sections']:
         title = section['title']
         description = section['description']
-        token = section['token']
         consult_experts = section['consult_experts']
         
         # Printing extracted data for demonstration
         print(f"Section Title: {title}")
         print(f"Description: {description}")
-        print(f"Token: {token}")
         
         if consult_experts:
             print("Experts to Consult:")
@@ -516,8 +594,8 @@ def create_markdown_draft(data):
         # Generate the header for the section
         markdown_output += f"### {section['title']}\n"
         
-        # Insert the placeholder for the content
-        markdown_output += "{{" + f"{section['token']}" + "}}\n\n"
+        # Insert the first draft for the content
+        markdown_output += "{{" + f"{section['first_draft']}" + "}}\n\n"
         
     return markdown_output
 
