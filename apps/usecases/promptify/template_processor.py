@@ -63,7 +63,9 @@ def replace_placeholders(template_content, replacements):
         raise ValueError(f"The number of replacements provided ({len(replacements)}) does not match the highest placeholder number ({highest_placeholder}) in the template.")
     
     for i, replacement in enumerate(replacements, start=1):
-        template_content = re.sub(fr'\{{{i}\}}', replacement, template_content)
+        # Use re.escape to escape any special characters in the replacement string
+        escaped_replacement = re.escape(replacement)
+        template_content = re.sub(fr'\{{{i}\}}', escaped_replacement, template_content)
     
     return template_content
 

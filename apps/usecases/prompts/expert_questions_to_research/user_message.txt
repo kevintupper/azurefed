@@ -1,0 +1,26 @@
+### PROPOSED RULE  
+
+{1}  
+
+### OUTLINE FROM ANALYST  
+
+{2}
+
+
+### MY QUESTION 
+
+What questions should a {3} with specialized knowledge in {4} seek to research and answer or provide information to a Regulatory Insight Analyst in helping them complete the following section:  
+  
+Section title: {5}
+Section description: {6}
+
+Rembmer to use the following format:
+
+[
+    {
+        "question":"<question to research and answer to provide information for a Regulatory Insight Analyst in helping them complete their analysis for my section>",
+        "reason":"<The intended purpose or rationale behind the research question.>"
+    }
+]
+
+And it should help me in figuring out what I need to research for the section I am contributing to.

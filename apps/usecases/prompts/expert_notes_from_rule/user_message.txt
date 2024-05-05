@@ -1,0 +1,29 @@
+I am a {1} expert with specialized knowledge in {2}.
+
+My help was requested for the following reason:
+
+{3}
+
+I will provide expert input to an Regulatory Insight Analyst who is writing an analysis on the proposed rule in your possession. They have already completed a draft outline. 
+
+Here is the title and description of the section I am to contribute research for:
+
+{4}
+{5}
+
+To conduct my research I and provide my expertise I need information from the Proposed Rule.
+
+Your job is to return a Json Array in the approved format that contains question and answer pairs with the content relevant for my research.
+
+I cannot do this without you since I don't have the rule. I will not have an opportunity to ask follow up questions, so please be thorough and exhaustive.
+
+Rembmer to use the following format:
+
+[
+    {
+        "question":"<question>",
+        "answer":"in depth content from the rule that answers the question"
+    }
+]
+
+And it should help me in figuring out what I need to research for the section I am contributing to.

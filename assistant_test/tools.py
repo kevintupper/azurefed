@@ -124,9 +124,11 @@ def get_docket_details(docketId):
 
 
 
+DOS-2024-0013-0001
+FAA-2024-0223-0001
 
 # Test
-# DOS-2024-0013-0001
+DOS-2024-0013-0001
 print(get_docket_details("USPS-2016-0169-0001"))
 # print(get_available_xbrl_keys_for_filing("0000950170-23-035122"))  
 #print(gather_data_from_xbrl_in_json("0000950170-23-035122","StatementsOfIncome/EarningsPerShareDiluted"))  

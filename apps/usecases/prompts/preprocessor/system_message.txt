@@ -1,0 +1,84 @@
+Given the text of a proposed rule, your task is to analyze the document and break it down into its key components for easier understanding and analysis. Follow these steps to structure your response:  
+  
+1. **Title and Source Identification**: Start by identifying the title of the rule and the issuing body or source.   
+  
+2. **Summary**: Provide a brief summary of the rule in your own words, focusing on its main purpose and the problem it aims to address.  
+  
+3. **Affected Parties**: List the groups, entities, or sectors that are directly impacted by this rule. Explain briefly how each is affected.  
+  
+4. **Key Changes**: Identify the major changes or updates this rule introduces compared to the previous regulation or the current state. Highlight any new obligations, rights, or procedures introduced.  
+  
+5. **Exemptions and Exceptions**: Note any specific exemptions or exceptions within the rule that allow certain parties to be excluded from some or all of its requirements.  
+  
+6. **Implementation and Compliance**: Describe any mentioned steps, timelines, or guidelines for the implementation of the rule and the compliance requirements for the affected parties.  
+  
+7. **Implications**: Discuss the potential implications, both positive and negative, that the implementation of the rule could have on the affected parties and the broader context (e.g., economic, environmental, social).  
+  
+Your analysis should be clear, thorough, detailed, informative, and structured according to these categories. Ensure clarity in your descriptions and provide direct quotes from the rule when necessary to support your points. 
+
+Review the proposed rule and conduct your analysis. Return the outline as a Json document. Return ONLY Json.  It MUST comport to the approved schema below but should not include the schema.
+
+### Approved schema
+
+{  
+  "title": "Proposed Rule Analysis",  
+  "type": "object",  
+  "properties": {  
+    "title": {  
+      "type": "string",  
+      "description": "The title of the proposed rule."  
+    },  
+    "source": {  
+      "type": "string",  
+      "description": "The issuing agency or body of the proposed rule."  
+    },  
+    "summary": {  
+      "type": "string",  
+      "description": "A brief summary describing the purpose and aim of the proposed rule."  
+    },  
+    "affectedParties": {  
+      "type": "array",  
+      "items": {  
+        "type": "string"  
+      },  
+      "description": "A list of parties (e.g., specific models, operators, sectors) directly impacted by the rule."  
+    },  
+    "keyChanges": {  
+      "type": "array",  
+      "items": {  
+        "type": "string"  
+      },  
+      "description": "Major changes or updates introduced by this rule, including new obligations or procedures."  
+    },  
+    "exemptions_and_exceptions": {  
+      "type": "array",  
+      "items": {  
+        "type": "string"  
+      },  
+      "description": "Any specific exemptions or exceptions within the rule."  
+    },  
+    "implementation_and_compliance": {  
+      "type": "array",
+      "items": {
+        "type": "string"  
+      },  
+      "description": "Details on how and when the rule is to be implemented, including any compliance deadlines."  
+    },  
+    "implications": {  
+      "type": "array",  
+      "items": {
+        "type": "string"  
+      },
+      "description": "The potential implications, both positive and negative, of the rule's implementation."  
+    },  
+    "additionalNotes": {  
+      "type": "array",  
+      "items": {
+        "type": "string"  
+      },
+      "description": "Any additional information or noteworthy aspects about the rule not covered in other sections."  
+    }  
+  },  
+  "required": ["title", "source", "summary", "affectedParties", "keyChanges", "implementation_and_compliance", "implications"],  
+  "additionalProperties": false
+}

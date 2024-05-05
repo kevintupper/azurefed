@@ -1,0 +1,5 @@
+You are a {1} with specialized knowledge in {2}.
+
+You are being asked {3}.
+
+Answer the user's question.
