@@ -34,3 +34,80 @@ Product - (Domain Expert, AI Developer, Data Egineer, UX/UI Designer)
 - How you prompt changes the output
 - It's not a "yes man".  If you prompt, "look at this with a critical eye and tell me all the reasons this rule is not a good idea", it will do that.
 - If you say find the security flaws.  It will do that.
+
+
+
+
+# AI In Action
+
+## Introduction
+
+- what we cover
+- my promise to them
+
+## Advanced AI (Simple model vs Foundation model)
+
+**Points to cover**
+
+- Everyone is used to using AI (examples)
+- Traditional AI (specific or domain purposes)
+- Generative AI (broad applications)
+
+- Misconceptions
+  - You don't train the generative modesl
+  - They don't learn from your data
+
+
+## Advanced (Foundation model [Perceive, Learn, Abstract, Reason])
+
+- About foundation models
+  - Examples of Perceive, Learn, Abstract, Reason
+  - Maybe here we talk about words and these are representations of how we think
+  - Ilya and Andrej video talking points
+  - Research that shows they write better, think better, and out perform marketers or managers at certain knowledge tasks
+  - Stateless and dumber, but predicting the next word in context can do amazing things.
+
+  - Predicting the next word with open endedness gets you freshman knowledge.  Predicting the next word with a narrow domain is really powerful.
+
+## Applied AI (Enhance, Augment, Discover)
+
+MSFT is seeing these 3 use cases that we're advancing across many verticals.  (Get talking points for this slide.)
+
+## Applied AI (Use Case Examples)
+
+## Applied AI (KT slides of the funnel)
+
+- Use generated talking points here.
+
+## Non-agentic Workflow
+
+- Straightforward talking point of slides
+
+## Agentic Workflow
+
+- Straightforward talking point of slides
+
+## Agentic Patterns
+
+- Convert Andrew Ng stuff to talking points here
+
+## Regulatory Insight Analyst
+
+Describe what I have and work with GenAI to figure out best talking points.
+
+- Ideas to improve 
+  - Connection to internal documents
+  - Connection to eCFR
+  - Connection to Search to better research
+  - Give overall persona - reshapes output
+  - Parallel agents improve performance
+  - Connect to regulations.gov for comments
+  - Turn into a rulemaking assistant
+  - Auto draft responses to comments
+  - Direct interaction with human agents, wait for approval, edit within stages
+  - Finetune model to write in a specific voice / legal framework
+  - Final review make cohesive
+
+## Ethan
+
+- introduce Ethan
