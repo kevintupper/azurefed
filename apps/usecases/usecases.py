@@ -595,7 +595,7 @@ def create_markdown_draft(data):
         markdown_output += f"### {section['title']}\n"
         
         # Insert the first draft for the content
-        markdown_output += "{{" + f"{section['first_draft']}" + "}}\n\n"
+        markdown_output += f"{section['first_draft']}" + "\n\n"
         
     return markdown_output
 

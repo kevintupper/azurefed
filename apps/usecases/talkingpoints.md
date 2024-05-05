@@ -22,3 +22,15 @@ I beleive our words are an extension of our thoughts. They are the way we commun
 
 I could have an human interaction at any point along the entire workflow to review and approve or modify the output of the AI, I would be able to ensure that the AI is generating content that is accurate, relevant, and appropriate for the intended objective.
 
+=== THE TEAM
+
+Governance - (Legal, Compliance, Risk, Ethics, Policy)
+Information Technology - (Infrastructure, Security, Privacy, Support)
+Product - (Domain Expert, AI Developer, Data Egineer, UX/UI Designer)
+
+
+
+=== Using AI to Generate Content
+- How you prompt changes the output
+- It's not a "yes man".  If you prompt, "look at this with a critical eye and tell me all the reasons this rule is not a good idea", it will do that.
+- If you say find the security flaws.  It will do that.
