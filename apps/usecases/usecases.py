@@ -114,6 +114,9 @@ async def regulatory_insight_analyst():
                     # Update status log
                     status.write(f"AI Analyst conduted an initial review of the proposed rule and posted the results to the 'Initial Review' tab.")
 
+                    # Write to disk in case we need to reference it later
+                    with open(f"./data/step_1_initial_review_{docket_id}.json", "w") as file:
+                        json.dump(initial_review, file)
 
                 #***********************************************************************************************
                 # Outline of the analysis
@@ -131,6 +134,10 @@ async def regulatory_insight_analyst():
 
                     # Update status log
                     status.write(f"AI Analyst drafted the outline and posted it on 'Analysis Outline' tab.")
+
+                    # Write to disk in case we need to reference it later
+                    with open(f"./data/step_2_outliner_{docket_id}.json", "w") as file:
+                        json.dump(analysis_outline, file)
 
 
                 #***********************************************************************************************
@@ -163,6 +170,9 @@ async def regulatory_insight_analyst():
                     # Update status log
                     status.write(f"AI Analyst added notes for experts to conduct analysis of {docket_id} and posted the resuts on the 'Notes for Experts' tab.")
 
+                    # Write to disk in case we need to reference it later
+                    with open(f"./data/step_3_notes_from_rule_{docket_id}.json", "w") as file:
+                        json.dump(analysis_outline, file)
 
                 #***********************************************************************************************
                 # Let the experts define a list of questions to answer for their research
@@ -194,6 +204,10 @@ async def regulatory_insight_analyst():
                             # Show intermediate results in the UI
                             expert_qs_placeholder.json(analysis_outline)
   
+                    # Write to disk in case we need to reference it later
+                    with open(f"./data/step_4_expert_questions_to_research_{docket_id}.json", "w") as file:
+                        json.dump(analysis_outline, file)
+
                     # Update status log
                     status.write(f"AI Experts generated the questions they want answered as a result of their research. Results have been posted to the 'Expert Q's' tab.")
 
@@ -229,7 +243,11 @@ async def regulatory_insight_analyst():
                             
                                     # Show intermediate results in the UI
                                     expert_as_placeholder.json(analysis_outline)
-  
+
+                    # Write to disk in case we need to reference it later
+                    with open(f"./data/step_5_expert_answers_{docket_id}.json", "w") as file:
+                        json.dump(analysis_outline, file)
+
                     # Update status log
                     status.write(f"AI Experts have researched and answered their questions. Results have been posted to the 'Expert A's' tab.")
 
@@ -249,7 +267,7 @@ async def regulatory_insight_analyst():
                     #       The only section in full sent to the prompt is the one being written.
                     for section in analysis_outline['sections']:
                             
-                        status.update(label=f"AI Analyst is writing section '{section['Title']}' based on expert research.", state="running")
+                        status.update(label=f"AI Analyst is writing section '{section['title']}' based on expert research.", state="running")
 
                         # Convert section to JSON string for promptify
                         section_json_str = json.dumps(section)
@@ -265,6 +283,10 @@ async def regulatory_insight_analyst():
                         # Show intermediate results in the UI
                         first_draft_placeholder.json(analysis_outline)
   
+                    # Write to disk in case we need to reference it later
+                    with open(f"./data/step_6_draft_writer_{docket_id}.json", "w") as file:
+                        json.dump(analysis_outline, file)
+
                     # Update status log
                     status.write(f"AI Analyst has written the first draft for each section. Results have been posted to the 'First Draft' tab.")
 
