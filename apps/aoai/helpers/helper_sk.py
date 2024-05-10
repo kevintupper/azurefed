@@ -51,7 +51,10 @@ def initialize_chat_service(deployment_name, base_url, service_id, api_key, api_
     chat_config = {"api_key": api_key, "endpoint": base_url, "deployment_name": deployment_name, "api_version": api_version}
     chat_service = sk_aoai.AzureChatCompletion(service_id=service_id, **chat_config)
     
-    chat_service.complete_chat
+    
+    # chat_service.complete_chat   <--- Not sure why I had this here.  Likely a mistake.
+    
+    chat_service = sk_aoai.Olla
 
     # Add the service to the kernel
     st.session_state.kernel.add_service(chat_service)
@@ -78,6 +81,7 @@ def initialize_chat_services():
         services_to_initialize = {
             "gpt_4": (AZURE_OPENAI_DEPLOYMENT_NAME_GPT_4, AZURE_OPENAI_ENDPOINT, "gpt_4", AZURE_OPENAI_API_KEY, AZURE_OPENAI_API_VERSION),
             "gpt_35_turbo": (AZURE_OPENAI_DEPLOYMENT_NAME_GPT_35_TURBO, AZURE_OPENAI_ENDPOINT, "gpt_35_turbo", AZURE_OPENAI_API_KEY, AZURE_OPENAI_API_VERSION),
+            "phi_3": (, AZURE_OPENAI_ENDPOINT, "phi_3", AZURE_OPENAI_API_KEY, AZURE_OPENAI_API_VERSION),
         }
 
         # Store these in session_state with the service_name as a key
