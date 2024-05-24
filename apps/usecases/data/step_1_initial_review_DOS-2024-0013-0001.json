@@ -1,30 +1,31 @@
 {
   "title": "International Traffic in Arms Regulations: Exemption for Defense Trade and Cooperation Among Australia, the United Kingdom, and the United States",
   "source": "Department of State",
-  "summary": "The Department of State proposes to amend the International Traffic in Arms Regulations (ITAR) to support the AUKUS partnership among Australia, the United Kingdom, and the United States. This amendment introduces an exemption to the requirement of obtaining a license or other approval for the export, reexport, retransfer, or temporary import of defense articles; the performance of defense services; or engagement in brokering activities among these nations. The rule aims to foster defense trade and cooperation, reflecting a commitment to shared security standards on protecting defense technology and sensitive military know-how.",
+  "summary": "The Department of State proposes to amend the International Traffic in Arms Regulations (ITAR) to support the AUKUS partnership among Australia, the United Kingdom, and the United States. This amendment introduces an exemption to the requirement of obtaining a license or other approval for the export, reexport, retransfer, or temporary import of defense articles; the performance of defense services; or engagement in brokering activities among these countries. The rule aims to foster defense trade and cooperation, reflecting the collective commitment to shared security standards.",
   "affectedParties": [
     "Defense industry entities in Australia, the United Kingdom, and the United States",
-    "Government agencies involved in defense trade and cooperation in Australia, the United Kingdom, and the United States"
+    "Government agencies in Australia, the United Kingdom, and the United States involved in defense trade and cooperation"
   ],
   "keyChanges": [
     "Introduction of an exemption for license or approval requirements for defense trade among Australia, the United Kingdom, and the United States",
     "Specification of defense articles and services excluded from the exemption",
     "Inclusion of provisions for intra-company, intra-organization, and intra-governmental transfers to allow for the transfer of classified defense articles to certain dual nationals",
-    "Revision of the section on expediting license review applications to reference new processes for Australia, the United Kingdom, and Canada"
+    "Revision of the section on expediting license review applications to include new processes for Australia, the United Kingdom, and Canada"
   ],
   "exemptions_and_exceptions": [
-    "A list of defense articles and services not eligible for the exemption",
-    "Exclusion of transfers that would require certification to Congress under sections 36(c) and 36(d) of the AECA"
+    "Defense articles and services listed in a new Supplement No. 2 to Part 126 are excluded from eligibility for transfer under the proposed exemption",
+    "Transfers that would require certification to Congress pursuant to sections 36(c) and 36(d) of the AECA are excluded from the exemption"
   ],
   "implementation_and_compliance": [
     "The exemption can only be used for transfers within the physical territory of Australia, the United Kingdom, or the United States",
-    "Eligible members, known as authorized users, will undergo an enrollment process",
-    "Transferors must maintain records of each transfer and make them available to the Directorate of Defense Trade Controls upon request",
-    "Transfers of classified defense articles and services must meet respective industrial security requirements"
+    "Eligible members, known as authorized users, will undergo an enrollment process in coordination with the Directorate of Defense Trade Controls (DDTC)",
+    "Transferors must maintain records of each transfer and make them available to DDTC upon request",
+    "Classified defense articles and services are eligible for transfer under this exemption provided the authorized users meet their respective industrial security requirements"
   ],
   "implications": [
     "Enhanced security cooperation and collaboration with Australia and the United Kingdom",
-    "Potential reduction in licensing burdens for some exporters",
+    "Potential reduction in the number of license applications submitted for authorized users meeting the criteria of the exemption",
+    "Relief of licensing burdens for some exporters",
     "Faster adjudication of license applications involving Australia, the United Kingdom, or Canada when an ITAR exemption is not available"
   ]
 }
